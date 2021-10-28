@@ -1,13 +1,12 @@
-package com.example.retrofit_test.ModelObject;
+package com.example.retrofit_test.Model.Networking.ModelObject;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class StackExchangeQuestion {
 
     @SerializedName("items")
-    private List<Item> items = null;
+    private List<Question> questions = null;
     @SerializedName("has_more")
     private Boolean hasMore;
     @SerializedName("quota_max")
@@ -15,8 +14,8 @@ public class StackExchangeQuestion {
     @SerializedName("quota_remaining")
     private Integer quotaRemaining;
 
-    public List<Item> getItems() {
-        return items;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
     public Boolean getHasMore() {

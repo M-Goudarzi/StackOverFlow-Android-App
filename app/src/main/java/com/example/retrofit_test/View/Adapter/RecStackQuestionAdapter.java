@@ -1,4 +1,4 @@
-package com.example.retrofit_test;
+package com.example.retrofit_test.View.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,16 +8,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.retrofit_test.ModelObject.Item;
+import com.example.retrofit_test.Model.Networking.ModelObject.Question;
+import com.example.retrofit_test.R;
 
 import java.util.ArrayList;
 
-class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuestionAdapter.MyViewHolder> {
+public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuestionAdapter.MyViewHolder> {
 
-    private ArrayList<Item> questions;
+    private ArrayList<Question> questions;
 
-    public RecStackQuestionAdapter(ArrayList<Item> questions) {
+    public RecStackQuestionAdapter(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    public void setQuestions(ArrayList<Question> newQuestions) {
+        questions.clear();
+        questions.addAll(newQuestions);
+        notifyDataSetChanged();
     }
 
     @NonNull

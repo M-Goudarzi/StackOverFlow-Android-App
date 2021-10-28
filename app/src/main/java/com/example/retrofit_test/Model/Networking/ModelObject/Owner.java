@@ -1,4 +1,4 @@
-package com.example.retrofit_test.ModelObject;
+package com.example.retrofit_test.Model.Networking.ModelObject;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,10 +1,10 @@
-package com.example.retrofit_test.ModelObject;
+package com.example.retrofit_test.Model.Networking.ModelObject;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Item {
+public class Question {
 
 
     @SerializedName("tags")
