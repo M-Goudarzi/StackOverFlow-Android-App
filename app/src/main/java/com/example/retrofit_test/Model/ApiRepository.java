@@ -1,23 +1,17 @@
 package com.example.retrofit_test.Model;
 
 import com.example.retrofit_test.Model.Networking.BaseRetrofit;
-import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.Model.Networking.ModelObject.StackExchangeQuestion;
 import com.example.retrofit_test.Model.Networking.StackExchangeApi;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ApiRepository {
 
     private BaseRetrofit baseRetrofit;
-    private StackExchangeApi api;
+    private final StackExchangeApi api;
 
     private Map<String , String> questionQueryMap;
 

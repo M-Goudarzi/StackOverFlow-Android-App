@@ -15,9 +15,9 @@ import retrofit2.Response;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
-    private Application application;
-    private MutableLiveData<List<Question>> questions = new MutableLiveData<>();
-    private ApiRepository repository;
+    private final Application application;
+    private final MutableLiveData<List<Question>> questions = new MutableLiveData<>();
+    private final ApiRepository repository;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -28,7 +28,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     public LiveData<List<Question>> getQuestions() {
         repository.getQuestion(new Callback<StackExchangeQuestion>() {
             @Override
-            public void onResponse(Call<StackExchangeQuestion> call, Response<StackExchangeQuestion> response) {
+            public void onResponse(@NonNull Call<StackExchangeQuestion> call, @NonNull Response<StackExchangeQuestion> response) {
                 if (!response.isSuccessful())
                     return;
                 if (response.body() == null)
@@ -36,7 +36,7 @@ public class MainActivityViewModel extends AndroidViewModel {
                 questions.setValue(response.body().getQuestions());
             }
             @Override
-            public void onFailure(Call<StackExchangeQuestion> call, Throwable t) {
+            public void onFailure(@NonNull Call<StackExchangeQuestion> call, @NonNull Throwable t) {
 
             }
         });

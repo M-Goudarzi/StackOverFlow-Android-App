@@ -23,9 +23,7 @@ public class MainActivity extends AppCompatActivity {
         init();
 
         MainActivityViewModel viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        viewModel.getQuestions().observe(this,questions -> {
-            adapter.setQuestions((ArrayList<Question>) questions);
-        });
+        viewModel.getQuestions().observe(this,questions -> adapter.setQuestions((ArrayList<Question>) questions));
 
     }
 
