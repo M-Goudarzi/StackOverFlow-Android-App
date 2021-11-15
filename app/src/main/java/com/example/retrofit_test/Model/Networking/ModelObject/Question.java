@@ -3,6 +3,7 @@ package com.example.retrofit_test.Model.Networking.ModelObject;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Question {
 
@@ -104,4 +105,16 @@ public class Question {
         return acceptedAnswerId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return Objects.equals(tags, question.tags) && Objects.equals(owner, question.owner) && Objects.equals(isAnswered, question.isAnswered) && Objects.equals(viewCount, question.viewCount) && Objects.equals(answerCount, question.answerCount) && Objects.equals(score, question.score) && Objects.equals(lastActivityDate, question.lastActivityDate) && Objects.equals(creationDate, question.creationDate) && Objects.equals(lastEditDate, question.lastEditDate) && Objects.equals(questionId, question.questionId) && Objects.equals(contentLicense, question.contentLicense) && Objects.equals(link, question.link) && Objects.equals(title, question.title) && Objects.equals(closedDate, question.closedDate) && Objects.equals(closedReason, question.closedReason) && Objects.equals(acceptedAnswerId, question.acceptedAnswerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tags, owner, isAnswered, viewCount, answerCount, score, lastActivityDate, creationDate, lastEditDate, questionId, contentLicense, link, title, closedDate, closedReason, acceptedAnswerId);
+    }
 }

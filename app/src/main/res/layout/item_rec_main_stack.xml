@@ -5,11 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/purple_200"
+    android:background="@color/myBrown"
     android:layout_margin="5dp"
     android:padding="8dp">
 
     <TextView
+        android:textSize="17sp"
         android:textColor="@color/white"
         android:id="@+id/question_id"
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:textSize="17sp"
         android:textColor="@color/white"
         android:id="@+id/question_title"
         android:layout_width="match_parent"

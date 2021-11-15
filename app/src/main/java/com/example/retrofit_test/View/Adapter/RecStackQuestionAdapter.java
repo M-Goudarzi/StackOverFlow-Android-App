@@ -4,27 +4,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
+import com.example.retrofit_test.Model.Networking.QuestionsDiffCallback;
 import com.example.retrofit_test.R;
-
 import java.util.ArrayList;
 
 public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuestionAdapter.MyViewHolder> {
 
-    private ArrayList<Question> questions;
+    private final ArrayList<Question> questions;
 
     public RecStackQuestionAdapter(ArrayList<Question> questions) {
         this.questions = questions;
     }
 
     public void setQuestions(ArrayList<Question> newQuestions) {
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new QuestionsDiffCallback(questions,newQuestions));
         questions.clear();
         questions.addAll(newQuestions);
-        notifyDataSetChanged();
+        result.dispatchUpdatesTo(RecStackQuestionAdapter.this);
     }
 
     @NonNull
@@ -47,7 +47,7 @@ public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuesti
         return questions.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvQuestionId,tvQuestionTitle;
 
