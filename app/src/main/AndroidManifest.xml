@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Retrofit_test">
         <activity
+            android:screenOrientation="portrait"
             android:name=".View.MainActivity"
             android:exported="true">
             <intent-filter>

@@ -1,23 +1,19 @@
 package com.example.retrofit_test.View.Fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Adapter.RecStackQuestionAdapter;
 import com.example.retrofit_test.ViewModel.HomeFragmentViewModel;
-
 import java.util.ArrayList;
 
 
