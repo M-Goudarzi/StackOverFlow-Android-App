@@ -2,7 +2,6 @@ package com.example.retrofit_test.Model;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.retrofit_test.Model.Networking.BaseRetrofit;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.Model.Networking.ModelObject.StackExchangeQuestion;

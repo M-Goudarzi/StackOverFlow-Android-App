@@ -18,7 +18,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public HomeFragmentViewModel(@NonNull Application application) {
         super(application);
-   //     this.application = application;
+        //    this.application = application;
         repository = new ApiRepository();
     }
 
