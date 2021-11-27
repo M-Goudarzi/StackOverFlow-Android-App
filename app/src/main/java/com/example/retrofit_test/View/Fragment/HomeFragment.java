@@ -12,14 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.R;
-import com.example.retrofit_test.View.Adapter.RecStackQuestionAdapter;
+import com.example.retrofit_test.View.Adapter.RecHomeQuestionAdapter;
 import com.example.retrofit_test.ViewModel.HomeFragmentViewModel;
 import java.util.ArrayList;
 
 
 public class HomeFragment extends Fragment {
 
-    private RecStackQuestionAdapter adapter;
+    private RecHomeQuestionAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     private HomeFragmentViewModel viewModel;
     private ProgressBar progressBar;
@@ -54,11 +54,11 @@ public class HomeFragment extends Fragment {
     void init() {
         progressBar = view.findViewById(R.id.progress_main);
         refreshLayout = view.findViewById(R.id.swipe_refresh_main);
-        RecyclerView recyclerView = view.findViewById(R.id.rec_main_questions);
+        RecyclerView recyclerView = view.findViewById(R.id.rec_home_questions);
         ArrayList<Question> questions = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecStackQuestionAdapter(questions);
+        adapter = new RecHomeQuestionAdapter(questions);
         recyclerView.setAdapter(adapter);
     }
 

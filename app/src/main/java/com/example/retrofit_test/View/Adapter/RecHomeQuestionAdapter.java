@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,11 +16,11 @@ import com.example.retrofit_test.Model.Networking.QuestionsDiffCallback;
 import com.example.retrofit_test.R;
 import java.util.ArrayList;
 
-public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuestionAdapter.MyViewHolder> {
+public class RecHomeQuestionAdapter extends RecyclerView.Adapter<RecHomeQuestionAdapter.MyViewHolder> {
 
     private final ArrayList<Question> questions;
 
-    public RecStackQuestionAdapter(ArrayList<Question> questions) {
+    public RecHomeQuestionAdapter(ArrayList<Question> questions) {
         this.questions = questions;
     }
 
@@ -27,7 +28,7 @@ public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuesti
         final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new QuestionsDiffCallback(questions,newQuestions));
         questions.clear();
         questions.addAll(newQuestions);
-        result.dispatchUpdatesTo(RecStackQuestionAdapter.this);
+        result.dispatchUpdatesTo(RecHomeQuestionAdapter.this);
     }
 
     @NonNull
@@ -47,6 +48,10 @@ public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuesti
                 .placeholder(R.drawable.account_circle_white_24)
                 .into(holder.ivAvatar);
 
+        holder.tags.clear();
+        holder.tags.addAll(questions.get(position).getTags());
+        holder.adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -58,11 +63,21 @@ public class RecStackQuestionAdapter extends RecyclerView.Adapter<RecStackQuesti
 
         TextView tvQuestionTitle;
         ImageView ivAvatar;
+        RecyclerView recyclerView;
+        RecyclerView.LayoutManager layoutManager;
+        ArrayList<String> tags;
+        RecHomeTagAdapter adapter;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvQuestionTitle = itemView.findViewById(R.id.question_title);
             ivAvatar = itemView.findViewById(R.id.question_avatar);
+            recyclerView = itemView.findViewById(R.id.rec_home_tags);
+            layoutManager = new LinearLayoutManager(itemView.getContext(),LinearLayoutManager.HORIZONTAL,false);
+            tags = new ArrayList<>();
+            adapter = new RecHomeTagAdapter(tags);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
         }
     }
 }

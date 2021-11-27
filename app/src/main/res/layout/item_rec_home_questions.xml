@@ -43,7 +43,12 @@
                 android:layout_weight="0"
                 android:text="Question Title sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
                 android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rec_home_tags"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

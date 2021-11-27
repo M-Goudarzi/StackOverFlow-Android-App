@@ -1,7 +1,6 @@
 package com.example.retrofit_test.Model.Networking.ModelObject;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 import java.util.Objects;
 
