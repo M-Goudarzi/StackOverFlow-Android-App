@@ -7,17 +7,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+
+import com.example.retrofit_test.Common.FetchQuestionsCallback;
+import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Adapter.RecHomeQuestionAdapter;
 import com.example.retrofit_test.View.Custom.TagsDialog;
 import com.example.retrofit_test.ViewModel.HomeFragmentViewModel;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
 import java.util.ArrayList;
 
 
@@ -25,12 +30,15 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
 
+    private QuestionsState tagState;
+
     private RecHomeQuestionAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     private HomeFragmentViewModel viewModel;
     private ProgressBar progressBar;
     private View view;
     private DialogFragment tagsDialog;
+    private ChipGroup chipGroup;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,21 +54,24 @@ public class HomeFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
 
-        progressBar.setVisibility(View.VISIBLE);
+        if (savedInstanceState != null)
+        progressBar.setVisibility(View.INVISIBLE);
 
-        viewModel.getQuestions().observe(getViewLifecycleOwner(),questions -> {
-            adapter.setQuestions((ArrayList<Question>) questions);
-            progressBar.setVisibility(View.GONE);
+        viewModel.getQuestions(tagState.getTags(),tagState.getState(),fetchQuestionsCallback).observe(getViewLifecycleOwner(), questions -> {
+            addQuestionToList((ArrayList<Question>) questions);
         });
 
         return view;
     }
 
-    void init() {
+    private void init() {
+        chipGroup = view.findViewById(R.id.chip_group_home);
+        chipGroup.setOnCheckedChangeListener(checkedChangeListener);
+        tagState = new QuestionsState();
         setUpDialog();
         Chip tagChip = view.findViewById(R.id.chip_tags);
         tagChip.setOnClickListener(tagChipClickListener);
-        progressBar = view.findViewById(R.id.progress_main);
+        progressBar = view.findViewById(R.id.progress_home);
         refreshLayout = view.findViewById(R.id.swipe_refresh_main);
         refreshLayout.setOnRefreshListener(onRefreshListener);
         RecyclerView recyclerView = view.findViewById(R.id.rec_home_questions);
@@ -71,28 +82,74 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    void setUpDialog() {
-        tagsDialog = new TagsDialog(listener);
+    private void setUpDialog() {
+        tagsDialog = new TagsDialog(listener,tagState.getTags());
     }
 
-    SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
-        if (viewModel == null)
-            return;
-        if (viewModel.fetchData() != null)
-            adapter.setQuestions((ArrayList<Question>) viewModel.fetchData());
+    private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
+        if (fetchQuestions() != null)
+        addQuestionToList(fetchQuestions());
         refreshLayout.setRefreshing(false);
     };
 
-    View.OnClickListener tagChipClickListener = (view) -> {
+    private final View.OnClickListener tagChipClickListener = (view) -> {
         if (isAdded())
         tagsDialog.show(getFragmentManager(),"tagsDialog");
     };
 
-    TagsDialog.TagsDialogListener listener = new TagsDialog.TagsDialogListener() {
-        @Override
-        public void onDialogPositiveClick(ArrayList<String> tags) {
-            Toast.makeText(view.getContext(),tags.get(0),Toast.LENGTH_SHORT).show();
-        }
+    private final TagsDialog.TagsDialogListener listener = tags -> {
+        String tagsString = buildTagString(tags);
+        tagState.setTags(tagsString);
+        addQuestionToList(fetchQuestions());
     };
 
+    private String buildTagString(ArrayList<String> tags) {
+        StringBuilder tagsString = new StringBuilder();
+        for (String tag : tags) {
+            if (tags.get(0).equals(tag))
+                tagsString = new StringBuilder(tag);
+            else {
+                tagsString.append(";").append(tag);
+            }
+        }
+        return tagsString.toString();
+    }
+
+    private void addQuestionToList(ArrayList<Question> questions) {
+        adapter.setQuestions(questions);
+    }
+
+    private ArrayList<Question> fetchQuestions() {
+        progressBar.setVisibility(View.VISIBLE);
+        ArrayList<Question> questions = null;
+        if (viewModel != null && viewModel.fetchData(tagState.getTags(),tagState.getState(),fetchQuestionsCallback) != null){
+            questions = (ArrayList<Question>) viewModel.fetchData(tagState.getTags(),tagState.getState(),fetchQuestionsCallback);
+        }
+        return questions;
+    }
+
+    private final FetchQuestionsCallback fetchQuestionsCallback = () -> {
+        progressBar.setVisibility(View.INVISIBLE);
+    };
+
+    private final ChipGroup.OnCheckedChangeListener checkedChangeListener = (group, checkedId) -> {
+        if (checkedId == R.id.chip_newest)
+            tagState.setState(QuestionsState.NEWEST);
+        if (checkedId == R.id.chip_bountied)
+            tagState.setState(QuestionsState.BOUNTIED);
+        if (checkedId == R.id.chip_unanswered)
+            tagState.setState(QuestionsState.UNANSWERED);
+
+        addQuestionToList(fetchQuestions());
+
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (viewModel == null)
+            return;
+        viewModel.closeNetworkCall();
+    }
 }
+

@@ -1,5 +1,6 @@
 package com.example.retrofit_test.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,15 +17,15 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
 
-    private final Fragment homeFragment = new HomeFragment();
-    private final Fragment searchFragment = new SearchFragment();
-    private final Fragment askFragment = new AskQuestionFragment();
-    private final Fragment profileFragment = new ProfileFragment();
+    private Fragment homeFragment;
+    private Fragment searchFragment;
+    private Fragment askFragment;
+    private Fragment profileFragment;
 
     private final FragmentManager fragmentManager = getSupportFragmentManager();
 
     //Current fragment shown on screen
-    private Fragment activeFragment = homeFragment;
+    private Fragment activeFragment;
 
 
     @Override
@@ -32,16 +33,51 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null){
+            initFragments();
+            addAllFragments();
+        }
+        else {
+            retrieveFragments(savedInstanceState.getString("ActiveFragment"));
+        }
+
         init();
 
         bottomNavigation.setOnItemSelectedListener(listener);
-
-        addAllFragments();
 
     }
 
     private void init() {
         bottomNavigation = findViewById(R.id.bottom_navigation_main);
+    }
+
+    private void initFragments() {
+        homeFragment = new HomeFragment();
+        searchFragment = new SearchFragment();
+        askFragment = new AskQuestionFragment();
+        profileFragment = new ProfileFragment();
+        activeFragment = homeFragment;
+    }
+
+    private void retrieveFragments(String fragmentTag) {
+        homeFragment = fragmentManager.findFragmentByTag("home");
+        searchFragment = fragmentManager.findFragmentByTag("search");
+        askFragment = fragmentManager.findFragmentByTag("ask");
+        profileFragment = fragmentManager.findFragmentByTag("profile");
+        switch (fragmentTag) {
+            case "home" :
+                activeFragment = homeFragment;
+                break;
+            case "search" :
+                activeFragment = searchFragment;
+                break;
+            case "ask" :
+                activeFragment = askFragment;
+                break;
+            case "profile" :
+                activeFragment = profileFragment;
+                break;
+        }
     }
 
     private final NavigationBarView.OnItemSelectedListener listener = item -> {
@@ -68,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         else return false;
     };
 
+
+
     private void addAllFragments() {
         fragmentManager.beginTransaction().add(R.id.frame_layout_main,profileFragment,"profile").hide(profileFragment).commit();
         fragmentManager.beginTransaction().add(R.id.frame_layout_main,askFragment,"ask").hide(askFragment).commit();
@@ -75,4 +113,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().add(R.id.frame_layout_main,homeFragment,"home").commit();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ActiveFragment",activeFragment.getTag());
+
+    }
 }

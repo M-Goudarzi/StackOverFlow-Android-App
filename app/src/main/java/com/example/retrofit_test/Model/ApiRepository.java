@@ -2,13 +2,13 @@ package com.example.retrofit_test.Model;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import com.example.retrofit_test.Common.FetchQuestionsCallback;
+import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.Networking.BaseRetrofit;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.Model.Networking.ModelObject.StackExchangeQuestion;
 import com.example.retrofit_test.Model.Networking.StackExchangeApi;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,7 +18,7 @@ public class ApiRepository {
     private BaseRetrofit baseRetrofit;
     private final StackExchangeApi api;
     private final MutableLiveData<List<Question>> questions;
-    private Map<String , String> questionQueryMap;
+    private Call<StackExchangeQuestion> call;
 
 
     public ApiRepository() {
@@ -27,12 +27,22 @@ public class ApiRepository {
 
         questions = new MutableLiveData<>();
         api = baseRetrofit.getApi();
-
-        initQueryMap();
     }
 
-    public MutableLiveData<List<Question>> getQuestion() {
-        Call<StackExchangeQuestion> call = api.getQuestions(questionQueryMap);
+    public MutableLiveData<List<Question>> getQuestion(String tags,int state ,FetchQuestionsCallback fetchQuestionsCallback) {
+        switch (state) {
+            case QuestionsState.BOUNTIED:
+                call = api.getBountiedQuestions(tags);
+                break;
+            case QuestionsState.UNANSWERED:
+                    call = api.getUnAnsweredQuestions(tags);
+                    break;
+            case QuestionsState.NEWEST:
+            default:
+                call = api.getNewestQuestions(tags);
+        }
+
+
         call.enqueue(new Callback<StackExchangeQuestion>() {
             @Override
             public void onResponse(@NonNull Call<StackExchangeQuestion> call, @NonNull Response<StackExchangeQuestion> response) {
@@ -41,6 +51,7 @@ public class ApiRepository {
                 if (response.body() == null)
                     return;
                 questions.setValue(response.body().getQuestions());
+                fetchQuestionsCallback.onFetchComplete();
             }
             @Override
             public void onFailure(@NonNull Call<StackExchangeQuestion> call, @NonNull Throwable t) {
@@ -50,13 +61,12 @@ public class ApiRepository {
         return questions;
     }
 
-
-    private void initQueryMap() {
-        questionQueryMap = new HashMap<>();
-        questionQueryMap.put("order" , "desc");
-        questionQueryMap.put("sort" , "activity");
-        questionQueryMap.put("site" , "stackoverflow");
-
+    public void closeCall() {
+        if (call == null)
+            return;
+        if (call.isCanceled())
+            return;
+        call.cancel();
     }
 
 }

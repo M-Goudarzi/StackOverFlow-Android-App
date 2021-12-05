@@ -19,6 +19,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TagsDialog extends DialogFragment implements View.OnClickListener {
 
@@ -27,9 +28,12 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
     private ChipGroup chipGroup;
     private EditText editText;
     private ArrayList<Chip> selectedChips;
+    private final ArrayList<String> tags = new ArrayList<>();
 
-    public TagsDialog(TagsDialogListener listener) {
+    public TagsDialog(TagsDialogListener listener,String tags) {
         dialogListener = listener;
+        this.tags.clear();
+        this.tags.addAll(Arrays.asList(tags.split(";")));
     }
 
 
@@ -54,6 +58,7 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         imageButton.setOnClickListener(imageButtonClickListener);
         selectedChips = new ArrayList<>();
         chipGroup = view.findViewById(R.id.chip_group_tags_dialog);
+        addTagsToSelectedList();
         Button selectButton = view.findViewById(R.id.button_select_tags_dialog);
         Button cancelButton = view.findViewById(R.id.button_cancel_tags_dialog);
         Chip pythonChip = view.findViewById(R.id.chip_python_tags_dialog);
@@ -222,13 +227,15 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         }
     }
 
-    void addChipToChipGroup(String chipText) {
-        if (chipIsAlreadyAddedToSelectedList(chipText))
+    private void addChipToChipGroup(String chipText) {
+        if (chipIsAlreadyAddedToSelectedListOrChipTextIsEmpty(chipText))
             return;
         chipGroup.addView(createNewChipAndAddToSelectedList(chipText));
     }
 
-    Boolean chipIsAlreadyAddedToSelectedList(String chipText) {
+    private Boolean chipIsAlreadyAddedToSelectedListOrChipTextIsEmpty(String chipText) {
+        if (chipText.equals(""))
+            return true;
         for (Chip chip : selectedChips) {
             if (chip.getText().equals(chipText))
                 return true;
@@ -236,7 +243,7 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         return false;
     }
 
-    Chip createNewChipAndAddToSelectedList(String chipText) {
+    private Chip createNewChipAndAddToSelectedList(String chipText) {
         Chip chip = new Chip(getContext());
         ViewGroup.LayoutParams layoutParams =  new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         chip.setLayoutParams(layoutParams);
@@ -252,7 +259,7 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         return chip;
     }
 
-    void addChipToSelectedListAndSetClickListener(Chip chip) {
+    private void addChipToSelectedListAndSetClickListener(Chip chip) {
         selectedChips.add(chip);
         chip.setOnClickListener(selectedChipsClickListener);
     }
@@ -278,15 +285,15 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         return false;
     };
 
-    void performEditTextDone(){
+    private void performEditTextDone(){
         if (editText.getText().toString().isEmpty())
             return;
         addChipToChipGroup(String.valueOf(editText.getText()));
         editText.setText("");
     }
 
-    ArrayList<String> getAllSelectedChipsTexts() {
-        ArrayList<String> tags = new ArrayList<>();
+    private ArrayList<String> getAllSelectedChipsTexts() {
+        tags.clear();
         for (Chip chip : selectedChips){
             tags.add(chip.getText().toString());
         }
@@ -295,6 +302,11 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
 
     public interface TagsDialogListener {
         void onDialogPositiveClick(ArrayList<String> tags);
+    }
+
+    private void addTagsToSelectedList() {
+        for (String tag : this.tags)
+        addChipToChipGroup(tag);
     }
 
 }

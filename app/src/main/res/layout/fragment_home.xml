@@ -24,7 +24,8 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.ChipGroup
-                android:layout_width="match_parent"
+                android:id="@+id/chip_group_home"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
                 app:selectionRequired="true"
@@ -36,31 +37,25 @@
                     android:id="@+id/chip_newest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Newest"/>
-                <com.google.android.material.chip.Chip
-                    android:checkable="true"
-                    android:id="@+id/chip_active"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Active"/>
+                    android:text="@string/newest"/>
                 <com.google.android.material.chip.Chip
                     android:checkable="true"
                     android:id="@+id/chip_bountied"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bountied"/>
+                    android:text="@string/bountied"/>
                 <com.google.android.material.chip.Chip
                     android:checkable="true"
                     android:id="@+id/chip_unanswered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Unanswered"/>
+                    android:text="@string/unanswered"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_tags"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tags"
+                    android:text="@string/tags"
                     android:checkable="false" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -72,15 +67,9 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <ProgressBar
-        android:id="@+id/progress_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/myBlue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_main"
@@ -99,5 +88,16 @@
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:indeterminateTint="@color/black"
+        android:visibility="visible"
+        android:id="@+id/progress_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

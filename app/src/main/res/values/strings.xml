@@ -39,4 +39,9 @@
     <string name="select">Select</string>
     <string name="selected_tags">Selected tags</string>
     <string name="json">json</string>
+    <string name="newest">Newest</string>
+    <string name="active">Active</string>
+    <string name="bountied">Bountied</string>
+    <string name="unanswered">Unanswered</string>
+    <string name="tags">Tags</string>
 </resources>
