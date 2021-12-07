@@ -7,12 +7,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.example.retrofit_test.Common.FetchQuestionsCallback;
 import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
@@ -22,7 +20,6 @@ import com.example.retrofit_test.View.Custom.TagsDialog;
 import com.example.retrofit_test.ViewModel.HomeFragmentViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-
 import java.util.ArrayList;
 
 
@@ -31,14 +28,12 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
 
     private QuestionsState tagState;
-
     private RecHomeQuestionAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     private HomeFragmentViewModel viewModel;
     private ProgressBar progressBar;
     private View view;
     private DialogFragment tagsDialog;
-    private ChipGroup chipGroup;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,6 +42,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -65,7 +61,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
-        chipGroup = view.findViewById(R.id.chip_group_home);
+        ChipGroup chipGroup = view.findViewById(R.id.chip_group_home);
         chipGroup.setOnCheckedChangeListener(checkedChangeListener);
         tagState = new QuestionsState();
         setUpDialog();
@@ -100,6 +96,7 @@ public class HomeFragment extends Fragment {
     private final TagsDialog.TagsDialogListener listener = tags -> {
         String tagsString = buildTagString(tags);
         tagState.setTags(tagsString);
+        if (fetchQuestions() != null)
         addQuestionToList(fetchQuestions());
     };
 
@@ -128,9 +125,7 @@ public class HomeFragment extends Fragment {
         return questions;
     }
 
-    private final FetchQuestionsCallback fetchQuestionsCallback = () -> {
-        progressBar.setVisibility(View.INVISIBLE);
-    };
+    private final FetchQuestionsCallback fetchQuestionsCallback = () -> progressBar.setVisibility(View.INVISIBLE);
 
     private final ChipGroup.OnCheckedChangeListener checkedChangeListener = (group, checkedId) -> {
         if (checkedId == R.id.chip_newest)
@@ -139,7 +134,7 @@ public class HomeFragment extends Fragment {
             tagState.setState(QuestionsState.BOUNTIED);
         if (checkedId == R.id.chip_unanswered)
             tagState.setState(QuestionsState.UNANSWERED);
-
+        if (fetchQuestions() != null)
         addQuestionToList(fetchQuestions());
 
     };
