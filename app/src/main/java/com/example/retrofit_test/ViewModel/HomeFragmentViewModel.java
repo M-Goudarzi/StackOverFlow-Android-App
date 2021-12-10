@@ -1,13 +1,17 @@
 package com.example.retrofit_test.ViewModel;
 
 import android.app.Application;
+import android.widget.RadioGroup;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.retrofit_test.Common.FetchQuestionsCallback;
+import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.ApiRepository;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
+
 import java.util.List;
 
 public class HomeFragmentViewModel extends AndroidViewModel {
@@ -16,20 +20,23 @@ public class HomeFragmentViewModel extends AndroidViewModel {
     private MutableLiveData<List<Question>> questions = new MutableLiveData<>();
     private final ApiRepository repository;
 
+    private final QuestionsState questionsState;
+
     public HomeFragmentViewModel(@NonNull Application application) {
         super(application);
         //    this.application = application;
         repository = new ApiRepository();
+        questionsState = new QuestionsState();
     }
 
-    public MutableLiveData<List<Question>> getQuestions(String tags,int state,FetchQuestionsCallback fetchQuestionsCallback) {
+    public MutableLiveData<List<Question>> getQuestions(FetchQuestionsCallback fetchQuestionsCallback) {
         if (questions.getValue() == null || questions.getValue().size() == 0)
-         questions.setValue(fetchData(tags,state,fetchQuestionsCallback));
+         questions.setValue(fetchData(fetchQuestionsCallback));
         return questions;
     }
 
-    public List<Question> fetchData(String tags,int state ,FetchQuestionsCallback fetchQuestionsCallback) {
-        questions = repository.getQuestion(tags,state,fetchQuestionsCallback);
+    public List<Question> fetchData(FetchQuestionsCallback fetchQuestionsCallback) {
+        questions = repository.getQuestion(getQuestionsTags(),getQuestionsState(),fetchQuestionsCallback);
         return questions.getValue();
     }
 
@@ -37,6 +44,21 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         if (repository == null)
             return;
         repository.closeCall();
+    }
+
+    public String getQuestionsTags() {
+        return questionsState.getTags();
+    }
+
+    private int getQuestionsState() {
+        return questionsState.getState();
+    }
+
+    public void setQuestionsState(int state) {
+        questionsState.setState(state);
+    }
+    public void setQuestionsTags(String tags) {
+        questionsState.setTags(tags);
     }
 
 }
