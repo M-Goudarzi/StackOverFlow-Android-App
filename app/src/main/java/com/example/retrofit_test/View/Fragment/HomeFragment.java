@@ -1,8 +1,6 @@
 package com.example.retrofit_test.View.Fragment;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.example.retrofit_test.Common.FetchQuestionsCallback;
 import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
@@ -30,14 +29,14 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
 
-    private static Boolean isBeingCreatedForFirstTime;
-
     private RecHomeQuestionAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     private HomeFragmentViewModel viewModel;
     private ProgressBar progressBar;
     private View view;
     private DialogFragment tagsDialog;
+    private TextView noQuestionTextVie;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,7 +46,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        isBeingCreatedForFirstTime = savedInstanceState == null;
+        boolean isBeingCreatedForFirstTime = savedInstanceState == null;
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -56,7 +55,6 @@ public class HomeFragment extends Fragment {
 
         if (!isBeingCreatedForFirstTime)
             progressBar.setVisibility(View.INVISIBLE);
-
 
         viewModel.getQuestions(fetchQuestionsCallback).observe(getViewLifecycleOwner(), questions -> {
             addQuestionToList((ArrayList<Question>) questions);
@@ -67,11 +65,8 @@ public class HomeFragment extends Fragment {
 
     private void init() {
         viewModel = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
-
         ChipGroup chipGroup = view.findViewById(R.id.chip_group_home);
         chipGroup.setOnCheckedChangeListener(checkedChangeListener);
-
-
         setUpDialog();
         Chip tagChip = view.findViewById(R.id.chip_tags);
         tagChip.setOnClickListener(tagChipClickListener);
@@ -84,6 +79,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecHomeQuestionAdapter(questions);
         recyclerView.setAdapter(adapter);
+        noQuestionTextVie = view.findViewById(R.id.tv_no_questions_home);
     }
 
 
@@ -108,6 +104,7 @@ public class HomeFragment extends Fragment {
         addQuestionToList(fetchQuestions());
     };
 
+    // Convert an array of tags to one String of tags separated by ';'
     private String buildTagString(ArrayList<String> tags) {
         StringBuilder tagsString = new StringBuilder();
         for (String tag : tags) {
@@ -127,8 +124,13 @@ public class HomeFragment extends Fragment {
             int delay = 1000;
             handler.postDelayed(() -> addQuestionToList(fetchQuestions()), delay);
         }
+        if (questions.isEmpty())
+            noQuestionTextVie.setVisibility(View.VISIBLE);
         else
-            adapter.setQuestions(questions);
+            noQuestionTextVie.setVisibility(View.INVISIBLE);
+
+        adapter.setQuestions(questions);
+
     }
 
     private ArrayList<Question> fetchQuestions() {

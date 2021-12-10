@@ -61,15 +61,9 @@
             </com.google.android.material.chip.ChipGroup>
 
 
-
-
         </HorizontalScrollView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_main"
@@ -88,6 +82,20 @@
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/tv_no_questions_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Questions Found"
+        android:textAlignment="center"
+        android:textColor="@color/myBlue"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:indeterminateTint="@color/black"
