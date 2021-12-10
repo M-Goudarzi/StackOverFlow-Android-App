@@ -1,5 +1,11 @@
 package com.example.retrofit_test.View.Adapter;
 
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +47,18 @@ public class RecHomeQuestionAdapter extends RecyclerView.Adapter<RecHomeQuestion
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.tvQuestionTitle.setText(questions.get(position).getTitle());
+        if (questions.get(position).getBountyAmount() != null) {
+            String str = "+" + questions.get(position).getBountyAmount() + " " + questions.get(position).getTitle();
+            Spannable spannable = new SpannableString(str);
+            spannable.setSpan(new ForegroundColorSpan(Color.BLUE),0,questions.get(position).getBountyAmount().toString().length()+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            holder.tvQuestionTitle.setText(spannable,TextView.BufferType.SPANNABLE);
+        }
+        else
+            holder.tvQuestionTitle.setText(questions.get(position).getTitle());
 
-        Glide.with(holder.itemView)
-                .load(questions.get(position).getOwner().getProfileImage())
-                .placeholder(R.drawable.account_circle_white_24)
-                .into(holder.ivAvatar);
+        holder.tvQuestionVotes.setText(holder.itemView.getContext().getString(R.string.QuestionVotes,questions.get(position).getUpVoteCount()));
+        holder.tvQuestionAnswers.setText(holder.itemView.getContext().getString(R.string.QuestionAnswers,questions.get(position).getAnswerCount()));
+        holder.tvQuestionViews.setText(holder.itemView.getContext().getString(R.string.QuestionViews,questions.get(position).getViewCount()));
 
         holder.tags.clear();
         holder.tags.addAll(questions.get(position).getTags());
@@ -62,7 +74,8 @@ public class RecHomeQuestionAdapter extends RecyclerView.Adapter<RecHomeQuestion
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvQuestionTitle;
-        ImageView ivAvatar;
+        TextView tvQuestionVotes,tvQuestionAnswers,tvQuestionViews;
+    //    ImageView ivAvatar;
         RecyclerView recyclerView;
         RecyclerView.LayoutManager layoutManager;
         ArrayList<String> tags;
@@ -71,7 +84,10 @@ public class RecHomeQuestionAdapter extends RecyclerView.Adapter<RecHomeQuestion
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvQuestionTitle = itemView.findViewById(R.id.question_title);
-            ivAvatar = itemView.findViewById(R.id.question_avatar);
+            tvQuestionVotes = itemView.findViewById(R.id.tv_question_info_votes);
+            tvQuestionAnswers = itemView.findViewById(R.id.tv_question_info_answers);
+            tvQuestionViews = itemView.findViewById(R.id.tv_question_info_views);
+        //    ivAvatar = itemView.findViewById(R.id.question_avatar);
             recyclerView = itemView.findViewById(R.id.rec_home_tags);
             layoutManager = new LinearLayoutManager(itemView.getContext(),LinearLayoutManager.HORIZONTAL,false);
             tags = new ArrayList<>();
