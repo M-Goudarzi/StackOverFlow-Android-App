@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1515625" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/account_circle_24.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/account_circle_white_24.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/avatar_imageview_background.xml" value="0.2786458333333333" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/check_24.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/progress_bar_home.xml" value="0.2786458333333333" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/question_mark_24.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_ask_question.xml" value="0.20471014492753623" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_home.xml" value="0.176" />
@@ -17,6 +20,10 @@
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_tags_dialog.xml" value="0.12708333333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/tags_dialog_layout.xml" value="0.152" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/menu/bottom_nav_menu.xml" value="0.15416666666666667" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2786458333333333" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2786458333333333" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_stack.xml" value="0.2786458333333333" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_stack_round.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/xml/chip.xml" value="0.2625" />
       </map>
     </option>

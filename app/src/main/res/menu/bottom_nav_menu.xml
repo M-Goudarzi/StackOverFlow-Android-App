@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottom_nav_home"
-        android:title="Home"
-        android:icon="@drawable/home_24"/>
+        android:title="Questions"
+        android:icon="@drawable/question_mark_24"/>
     <item
         android:id="@+id/bottom_nav_search"
         android:title="Search"
