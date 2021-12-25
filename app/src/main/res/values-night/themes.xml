@@ -1,16 +1,61 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Retrofit_test" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="MyTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/myBlack</item>
+        <item name="android:navigationBarColor">@color/myBlack</item>
+
+        <item name="backgroundColor">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:textColor">@color/myBlack</item>
+        <item name="imageButtonStyle">@style/myImageButton</item>
+        <item name="bottomNavigationStyle">@style/myBottomNavigation</item>
+        <item name="android:progressBarStyle">@style/myProgressBar</item>
+        <item name="chipStyle">@style/myChip</item>
+        <item name="cardViewStyle">@style/myCardView</item>
+    </style>
+
+    <style name="myImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="tint">@color/myBlack</item>
+    </style>
+    <style name="myBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/myBlack</item>
+        <item name="itemTextColor">@color/myBlack</item>
+    </style>
+    <style name="myProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/myBlack</item>
+    </style>
+    <style name="myChip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="android:textColor">@color/myBlack</item>
+        <item name="checkedIconTint">@color/myBlack</item>
+        <item name="android:textStyle">bold</item>
+        <item name="chipBackgroundColor">@color/myGray</item>
+    </style>
+    <style name="tagsDialogButtonChip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textColor">@color/myBlack</item>
+        <item name="chipBackgroundColor">@color/myGray</item>
+    </style>
+    <style name="tagsDialogSelectedChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="android:textColor">@color/myBlack</item>
+        <item name="chipBackgroundColor">@color/myGray</item>
+    </style>
+    <style name="myCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/myBrown</item>
+    </style>
+    <style name="questionItemText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="questionTagsItemText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:background">@color/myGray</item>
+        <item name="android:textColor">@color/myBlack</item>
+    </style>
+    <style name="myAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/white</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/alertDialogButton</item>
+    </style>
+    <style name="alertDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="backgroundTint">@color/myBlack</item>
+        <item name="android:textColor">@color/myBlack</item>
     </style>
 </resources>

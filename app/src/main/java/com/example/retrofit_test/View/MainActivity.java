@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Fragment.AskQuestionFragment;
-import com.example.retrofit_test.View.Fragment.HomeFragment;
+import com.example.retrofit_test.View.Fragment.QuestionFragment;
 import com.example.retrofit_test.View.Fragment.ProfileFragment;
 import com.example.retrofit_test.View.Fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -16,17 +16,13 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
-
     private Fragment homeFragment;
     private Fragment searchFragment;
     private Fragment askFragment;
     private Fragment profileFragment;
-
     private final FragmentManager fragmentManager = getSupportFragmentManager();
-
     //Current fragment shown on screen
     private Fragment activeFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +39,21 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        bottomNavigation.setOnItemSelectedListener(listener);
-
-    }
-
-    private void init() {
-        bottomNavigation = findViewById(R.id.bottom_navigation_main);
     }
 
     private void initFragments() {
-        homeFragment = new HomeFragment();
+        homeFragment = new QuestionFragment();
         searchFragment = new SearchFragment();
         askFragment = new AskQuestionFragment();
         profileFragment = new ProfileFragment();
         activeFragment = homeFragment;
+    }
+
+    private void addAllFragments() {
+        fragmentManager.beginTransaction().add(R.id.frame_layout_main,profileFragment,"profile").hide(profileFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_layout_main,askFragment,"ask").hide(askFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_layout_main,searchFragment,"search").hide(searchFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_layout_main,homeFragment,"home").commit();
     }
 
     private void retrieveFragments(String fragmentTag) {
@@ -78,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
                 activeFragment = profileFragment;
                 break;
         }
+    }
+
+    private void init() {
+        bottomNavigation = findViewById(R.id.bottom_navigation_main);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bottomNavigation.setOnItemSelectedListener(listener);
     }
 
     private final NavigationBarView.OnItemSelectedListener listener = item -> {
@@ -104,13 +111,10 @@ public class MainActivity extends AppCompatActivity {
         else return false;
     };
 
-
-
-    private void addAllFragments() {
-        fragmentManager.beginTransaction().add(R.id.frame_layout_main,profileFragment,"profile").hide(profileFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.frame_layout_main,askFragment,"ask").hide(askFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.frame_layout_main,searchFragment,"search").hide(searchFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.frame_layout_main,homeFragment,"home").commit();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bottomNavigation.setOnItemSelectedListener(null);
     }
 
     @Override

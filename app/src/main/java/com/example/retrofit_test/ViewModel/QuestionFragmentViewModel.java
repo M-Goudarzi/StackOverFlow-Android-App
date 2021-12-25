@@ -11,22 +11,25 @@ import com.example.retrofit_test.Common.FetchQuestionsCallback;
 import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.ApiRepository;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
+import com.example.retrofit_test.View.Custom.TagsDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragmentViewModel extends AndroidViewModel {
+public class QuestionFragmentViewModel extends AndroidViewModel {
 
    // private final Application application;
     private MutableLiveData<List<Question>> questions = new MutableLiveData<>();
     private final ApiRepository repository;
-
     private final QuestionsState questionsState;
+    private TagsDialog.TagsDialogListener tagsDialogListener;
 
-    public HomeFragmentViewModel(@NonNull Application application) {
+    public QuestionFragmentViewModel(@NonNull Application application) {
         super(application);
         //    this.application = application;
         repository = new ApiRepository();
         questionsState = new QuestionsState();
+
     }
 
     public MutableLiveData<List<Question>> getQuestions(FetchQuestionsCallback fetchQuestionsCallback) {
@@ -61,4 +64,11 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         questionsState.setTags(tags);
     }
 
+    public TagsDialog.TagsDialogListener getTagsDialogListener() {
+        return tagsDialogListener;
+    }
+
+    public void setTagsDialogListener(TagsDialog.TagsDialogListener tagsDialogListener) {
+        this.tagsDialogListener = tagsDialogListener;
+    }
 }

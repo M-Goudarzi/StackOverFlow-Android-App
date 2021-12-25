@@ -1,52 +1,73 @@
 package com.example.retrofit_test.View.Custom;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import com.example.retrofit_test.R;
+import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class TagsDialog extends DialogFragment implements View.OnClickListener {
 
+    private static final String TAG = "TagsDialog";
+
     private View view;
-    private final TagsDialogListener dialogListener;
+    private TagsDialogListener dialogListener;
     private ChipGroup chipGroup;
     private EditText editText;
     private ArrayList<Chip> selectedChips;
     private final ArrayList<String> tags = new ArrayList<>();
 
-    public TagsDialog(TagsDialogListener listener,String tags) {
-        dialogListener = listener;
-        this.tags.clear();
-        this.tags.addAll(Arrays.asList(tags.split(";")));
+
+    public TagsDialog() {
     }
 
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),R.style.myAlertDialog);
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.tags_dialog_layout,null);
         builder.setView(view);
+        builder.setPositiveButton("Select", (dialogInterface, i) -> {
+            dialogListener.onDialogPositiveClick(getAllSelectedChipsTexts());
+            dismiss();
+        }).setNeutralButton("Cancel", ((dialogInterface, i) -> dismiss()));
+
+        QuestionFragmentViewModel viewModel = new ViewModelProvider(requireActivity()).get(QuestionFragmentViewModel.class);
+
+        tags.clear();
+        tags.addAll(Arrays.asList(viewModel.getQuestionsTags().split(";")));
+
+        if (savedInstanceState != null){
+            Log.i(TAG, "onCreateDialog: " + savedInstanceState.getStringArrayList("selectedTags"));
+            tags.addAll(savedInstanceState.getStringArrayList("selectedTags"));
+        }
+
+        dialogListener = viewModel.getTagsDialogListener();
 
         init();
-
 
         return builder.create();
     }
@@ -58,9 +79,6 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         imageButton.setOnClickListener(imageButtonClickListener);
         selectedChips = new ArrayList<>();
         chipGroup = view.findViewById(R.id.chip_group_tags_dialog);
-        addTagsToSelectedList();
-        Button selectButton = view.findViewById(R.id.button_select_tags_dialog);
-        Button cancelButton = view.findViewById(R.id.button_cancel_tags_dialog);
         Chip pythonChip = view.findViewById(R.id.chip_python_tags_dialog);
         Chip javaChip = view.findViewById(R.id.chip_java_tags_dialog);
         Chip csharpChip = view.findViewById(R.id.chip_csharp_tags_dialog);
@@ -92,8 +110,6 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         Chip excelChip = view.findViewById(R.id.chip_excel_tags_dialog);
         Chip jsonChip = view.findViewById(R.id.chip_json_tags_dialog);
 
-        cancelButton.setOnClickListener(this);
-        selectButton.setOnClickListener(this);
         pythonChip.setOnClickListener(this);
         javaChip.setOnClickListener(this);
         csharpChip.setOnClickListener(this);
@@ -124,18 +140,13 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         angularjsChip.setOnClickListener(this);
         excelChip.setOnClickListener(this);
         jsonChip.setOnClickListener(this);
+
+        addTagsToSelectedList();
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.button_cancel_tags_dialog) {
-            dismiss();
-        }
-        else if (view.getId() == R.id.button_select_tags_dialog){
-            dialogListener.onDialogPositiveClick(getAllSelectedChipsTexts());
-            dismiss();
-        }
-        else if (view.getId() == R.id.chip_python_tags_dialog) {
+        if (view.getId() == R.id.chip_python_tags_dialog) {
             addChipToChipGroup(getString(R.string.python));
         }
         else if (view.getId() == R.id.chip_java_tags_dialog ) {
@@ -237,18 +248,18 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         if (chipText.equals(""))
             return true;
         for (Chip chip : selectedChips) {
-            if (chip.getText().equals(chipText))
+            if (chip.getText().toString().toLowerCase(Locale.ROOT).equals(chipText.toLowerCase(Locale.ROOT)))
                 return true;
         }
         return false;
     }
 
     private Chip createNewChipAndAddToSelectedList(String chipText) {
-        Chip chip = new Chip(getContext());
+        Chip chip = new Chip(requireContext());
         ViewGroup.LayoutParams layoutParams =  new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         chip.setLayoutParams(layoutParams);
         chip.setText(chipText);
-        ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(getContext(),null,0,R.style.Widget_MaterialComponents_Chip_Entry);
+        ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(requireContext(),null,0,R.style.tagsDialogSelectedChip);
         chip.setChipDrawable(chipDrawable);
         int chipId = View.generateViewId();
         chip.setId(chipId);
@@ -309,4 +320,47 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         addChipToChipGroup(tag);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //save selected but not clicked on select button
+        //will retrieve back after configuration changes
+
+        ArrayList<String> tags = new ArrayList<>();
+
+        for (int i = 0; i < chipGroup.getChildCount();i++){
+            tags.add(String.valueOf(((Chip) chipGroup.getChildAt(i)).getText()));
+        }
+        outState.putStringArrayList("selectedTags",tags);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (((AlertDialog) getDialog()) != null) {
+            //if night mode set dialog buttons color to white unless black
+            int nightModeFlags = requireContext().getResources()
+                    .getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            int color;
+            if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    color = requireContext().getColor(R.color.white);
+                else
+                    color = ContextCompat.getColor(requireContext(), R.color.white);
+            }
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    color = requireContext().getColor(R.color.myBlack);
+                else
+                    color = ContextCompat.getColor(requireContext(), R.color.myBlack);
+            }
+
+            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(color);
+            ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL)
+                    .setTextColor(color);
+
+
+        }
+    }
 }

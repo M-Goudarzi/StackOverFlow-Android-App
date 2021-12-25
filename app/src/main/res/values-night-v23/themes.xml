@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/myBlack</item>
+
+        <item name="backgroundColor">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:textColor">@color/myBlack</item>
+        <item name="imageButtonStyle">@style/myImageButton</item>
+        <item name="bottomNavigationStyle">@style/myBottomNavigation</item>
+        <item name="android:progressBarStyle">@style/myProgressBar</item>
+        <item name="chipStyle">@style/myChip</item>
+        <item name="cardViewStyle">@style/myCardView</item>
+
+    </style>
+</resources>

@@ -10,13 +10,17 @@
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/check_24.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/progress_bar_home.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/drawable/question_mark_24.xml" value="0.2786458333333333" />
-        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/activity_main.xml" value="0.16799999999999998" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_ask_question.xml" value="0.20471014492753623" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_profile.xml" value="0.15416666666666667" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_question.xml" value="0.11068376068376068" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/fragment_search.xml" value="0.15260416666666668" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_home_questions.xml" value="0.1585144927536232" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_home_tags.xml" value="0.19791666666666666" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_main_stack.xml" value="0.17300724637681159" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_question_questions.xml" value="0.10526315789473684" />
+        <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_question_tags.xml" value="0.10526315789473684" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/item_rec_tags_dialog.xml" value="0.12708333333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/layout/tags_dialog_layout.xml" value="0.152" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/menu/bottom_nav_menu.xml" value="0.15416666666666667" />
@@ -28,7 +32,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

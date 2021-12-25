@@ -12,18 +12,18 @@ import com.example.retrofit_test.R;
 
 import java.util.ArrayList;
 
-class RecHomeTagAdapter extends RecyclerView.Adapter<RecHomeTagAdapter.MyHolder> {
+class RecQuestionTagAdapter extends RecyclerView.Adapter<RecQuestionTagAdapter.MyHolder> {
 
     ArrayList<String> tags;
 
-    public RecHomeTagAdapter(ArrayList<String> tags) {
+    public RecQuestionTagAdapter(ArrayList<String> tags) {
         this.tags = tags;
     }
 
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_home_tags,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_question_tags,parent,false);
         return new MyHolder(view);
     }
 

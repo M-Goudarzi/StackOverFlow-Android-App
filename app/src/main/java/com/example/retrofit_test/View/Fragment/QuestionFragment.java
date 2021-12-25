@@ -1,6 +1,8 @@
 package com.example.retrofit_test.View.Fragment;
 
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,29 +19,31 @@ import com.example.retrofit_test.Common.FetchQuestionsCallback;
 import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.R;
-import com.example.retrofit_test.View.Adapter.RecHomeQuestionAdapter;
+import com.example.retrofit_test.View.Adapter.RecQuestionQuestionAdapter;
 import com.example.retrofit_test.View.Custom.TagsDialog;
-import com.example.retrofit_test.ViewModel.HomeFragmentViewModel;
+import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 
-
-public class HomeFragment extends Fragment {
+public class QuestionFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-
-    private RecHomeQuestionAdapter adapter;
+    private RecQuestionQuestionAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
-    private HomeFragmentViewModel viewModel;
+    private QuestionFragmentViewModel viewModel;
     private ProgressBar progressBar;
     private View view;
-    private DialogFragment tagsDialog;
     private TextView noQuestionTextVie;
+    private ChipGroup chipGroup;
 
-
-    public HomeFragment() {
+    public QuestionFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -49,25 +53,29 @@ public class HomeFragment extends Fragment {
         boolean isBeingCreatedForFirstTime = savedInstanceState == null;
 
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_question, container, false);
 
         init();
 
-        if (!isBeingCreatedForFirstTime)
+        if (!isBeingCreatedForFirstTime) {
+            chipGroup.check(savedInstanceState.getInt("CheckedChip"));
             progressBar.setVisibility(View.INVISIBLE);
+        }
 
         viewModel.getQuestions(fetchQuestionsCallback).observe(getViewLifecycleOwner(), questions -> {
             addQuestionToList((ArrayList<Question>) questions);
         });
 
+        viewModel.setTagsDialogListener(tagsDialogListener);
+
         return view;
     }
 
     private void init() {
-        viewModel = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
-        ChipGroup chipGroup = view.findViewById(R.id.chip_group_home);
+        viewModel = new ViewModelProvider(requireActivity()).get(QuestionFragmentViewModel.class);
+        chipGroup = view.findViewById(R.id.chip_group_home);
         chipGroup.setOnCheckedChangeListener(checkedChangeListener);
-        setUpDialog();
+  //      setUpDialog();
         Chip tagChip = view.findViewById(R.id.chip_tags);
         tagChip.setOnClickListener(tagChipClickListener);
         progressBar = view.findViewById(R.id.progress_home);
@@ -77,14 +85,9 @@ public class HomeFragment extends Fragment {
         ArrayList<Question> questions = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecHomeQuestionAdapter(questions);
+        adapter = new RecQuestionQuestionAdapter(questions,requireContext());
         recyclerView.setAdapter(adapter);
         noQuestionTextVie = view.findViewById(R.id.tv_no_questions_home);
-    }
-
-
-    private void setUpDialog() {
-        tagsDialog = new TagsDialog(listener, viewModel.getQuestionsTags());
     }
 
     private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
@@ -93,15 +96,10 @@ public class HomeFragment extends Fragment {
     };
 
     private final View.OnClickListener tagChipClickListener = (view) -> {
-        if (isAdded())
-        tagsDialog.show(getParentFragmentManager(),"tagsDialog");
-    };
-
-    private final TagsDialog.TagsDialogListener listener = tags -> {
-        String tagsString = buildTagString(tags);
-        viewModel.setQuestionsTags(tagsString);
-
-        addQuestionToList(fetchQuestions());
+        if (isAdded()) {
+            DialogFragment tagsDialog = new TagsDialog();
+            tagsDialog.show(getParentFragmentManager(),"tagsDialog");
+        }
     };
 
     // Convert an array of tags to one String of tags separated by ';'
@@ -124,13 +122,14 @@ public class HomeFragment extends Fragment {
             int delay = 1000;
             handler.postDelayed(() -> addQuestionToList(fetchQuestions()), delay);
         }
-        if (questions.isEmpty())
-            noQuestionTextVie.setVisibility(View.VISIBLE);
-        else
-            noQuestionTextVie.setVisibility(View.INVISIBLE);
+        else {
+            if (questions.isEmpty())
+                noQuestionTextVie.setVisibility(View.VISIBLE);
+            else
+                noQuestionTextVie.setVisibility(View.INVISIBLE);
 
-        adapter.setQuestions(questions);
-
+            adapter.setQuestions(questions);
+        }
     }
 
     private ArrayList<Question> fetchQuestions() {
@@ -156,11 +155,19 @@ public class HomeFragment extends Fragment {
     };
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (viewModel == null)
-            return;
-        viewModel.closeNetworkCall();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("CheckedChip",chipGroup.getCheckedChipId());
     }
+
+
+    private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
+        String tagsString = buildTagString(tags);
+        viewModel.setQuestionsTags(tagsString);
+
+        addQuestionToList(fetchQuestions());
+
+    };
+
 }
 

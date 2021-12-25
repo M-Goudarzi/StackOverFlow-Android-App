@@ -6,7 +6,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Fragment.HomeFragment">
+    tools:context=".View.Fragment.QuestionFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -33,30 +33,28 @@
                 app:singleLine="true">
 
                 <com.google.android.material.chip.Chip
-                    android:checkable="true"
                     android:id="@+id/chip_newest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/newest"/>
                 <com.google.android.material.chip.Chip
-                    android:checkable="true"
                     android:id="@+id/chip_bountied"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bountied"/>
                 <com.google.android.material.chip.Chip
-                    android:checkable="true"
                     android:id="@+id/chip_unanswered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/unanswered"/>
 
                 <com.google.android.material.chip.Chip
+                    style="@style/tagsDialogButtonChip"
                     android:id="@+id/chip_tags"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tags"
-                    android:checkable="false" />
+                    />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -88,9 +86,8 @@
         android:id="@+id/tv_no_questions_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Questions Found"
+        android:text="@string/no_questions_found"
         android:textAlignment="center"
-        android:textColor="@color/myBlue"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +95,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:indeterminateTint="@color/black"
         android:visibility="visible"
         android:id="@+id/progress_home"
         android:layout_width="wrap_content"
