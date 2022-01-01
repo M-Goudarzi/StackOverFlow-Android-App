@@ -2,6 +2,7 @@ package com.example.retrofit_test.Model.Networking.ModelObject;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
+import java.util.Objects;
 
 public class Question {
 
@@ -74,5 +75,18 @@ public class Question {
 
     public void setBountyAmount(Integer bountyAmount) {
         this.bountyAmount = bountyAmount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return Objects.equals(tags, question.tags) && Objects.equals(bountyAmount, question.bountyAmount) && Objects.equals(viewCount, question.viewCount) && Objects.equals(upVoteCount, question.upVoteCount) && Objects.equals(answerCount, question.answerCount) && Objects.equals(questionId, question.questionId) && Objects.equals(title, question.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tags, bountyAmount, viewCount, upVoteCount, answerCount, questionId, title);
     }
 }

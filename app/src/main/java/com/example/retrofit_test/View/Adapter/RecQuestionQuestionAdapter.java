@@ -1,11 +1,5 @@
 package com.example.retrofit_test.View.Adapter;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,30 +8,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
-import com.example.retrofit_test.Model.Networking.QuestionsDiffCallback;
 import com.example.retrofit_test.R;
 import java.util.ArrayList;
-
+import androidx.paging.PagingDataAdapter;
 import io.noties.markwon.Markwon;
-import io.noties.markwon.SpanFactory;
 
-public class RecQuestionQuestionAdapter extends RecyclerView.Adapter<RecQuestionQuestionAdapter.MyViewHolder> {
+public class RecQuestionQuestionAdapter extends PagingDataAdapter<Question,RecQuestionQuestionAdapter.MyViewHolder> {
 
-    private final ArrayList<Question> questions;
     private final Markwon markwon;
 
-    public RecQuestionQuestionAdapter(ArrayList<Question> questions, Context context) {
-        this.questions = questions;
-        markwon = Markwon.create(context);
-    }
-
-    public void setQuestions(ArrayList<Question> newQuestions) {
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new QuestionsDiffCallback(questions,newQuestions));
-        questions.clear();
-        questions.addAll(newQuestions);
-        result.dispatchUpdatesTo(RecQuestionQuestionAdapter.this);
+    public RecQuestionQuestionAdapter(@NonNull DiffUtil.ItemCallback<Question> diffCallback, Markwon markwon) {
+        super(diffCallback);
+        this.markwon = markwon;
     }
 
     @NonNull
@@ -49,33 +32,12 @@ public class RecQuestionQuestionAdapter extends RecyclerView.Adapter<RecQuestion
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
-        if (questions.get(position).getBountyAmount() != null) {
-            String str =  "**+" + questions.get(position).getBountyAmount() + "** " + questions.get(position).getTitle();
-            markwon.setMarkdown(holder.tvQuestionTitle, str);
-        }
-        else {
-            //   holder.tvQuestionTitle.setText(questions.get(position).getTitle());
-            markwon.setMarkdown(holder.tvQuestionTitle,questions.get(position).getTitle());
-        }
-
-
-        holder.tvQuestionVotes.setText(holder.itemView.getContext().getString(R.string.QuestionVotes,questions.get(position).getUpVoteCount()));
-        holder.tvQuestionAnswers.setText(holder.itemView.getContext().getString(R.string.QuestionAnswers,questions.get(position).getAnswerCount()));
-        holder.tvQuestionViews.setText(holder.itemView.getContext().getString(R.string.QuestionViews,questions.get(position).getViewCount()));
-
-        holder.tags.clear();
-        holder.tags.addAll(questions.get(position).getTags());
-        holder.adapter.notifyDataSetChanged();
-
+        Question question = getItem(position);
+        if (question != null)
+            holder.bind(question);
     }
 
-    @Override
-    public int getItemCount() {
-        return questions.size();
-    }
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvQuestionTitle;
         TextView tvQuestionVotes,tvQuestionAnswers,tvQuestionViews;
@@ -97,5 +59,25 @@ public class RecQuestionQuestionAdapter extends RecyclerView.Adapter<RecQuestion
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
         }
+
+        private void bind(Question question) {
+                if (question.getBountyAmount() != null) {
+                    String str =  "**+" + question.getBountyAmount() + "** " + question.getTitle();
+                    markwon.setMarkdown(tvQuestionTitle, str);
+                }
+                else {
+                    markwon.setMarkdown(tvQuestionTitle,question.getTitle());
+                }
+
+
+                tvQuestionVotes.setText(itemView.getContext().getString(R.string.QuestionVotes,question.getUpVoteCount()));
+                tvQuestionAnswers.setText(itemView.getContext().getString(R.string.QuestionAnswers,question.getAnswerCount()));
+                tvQuestionViews.setText(itemView.getContext().getString(R.string.QuestionViews,question.getViewCount()));
+
+                tags.clear();
+                tags.addAll(question.getTags());
+                adapter.notifyDataSetChanged();
+        }
+
     }
 }

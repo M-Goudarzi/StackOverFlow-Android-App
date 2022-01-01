@@ -1,65 +1,64 @@
 package com.example.retrofit_test.ViewModel;
 
 import android.app.Application;
-import android.widget.RadioGroup;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.retrofit_test.Common.FetchQuestionsCallback;
+import androidx.lifecycle.ViewModelKt;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.paging.Pager;
+import androidx.paging.PagingConfig;
+import androidx.paging.PagingData;
+import androidx.paging.rxjava3.PagingRx;
 import com.example.retrofit_test.Common.QuestionsState;
-import com.example.retrofit_test.Model.ApiRepository;
+import com.example.retrofit_test.Model.Networking.BaseRetrofit;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
+import com.example.retrofit_test.Model.Networking.StackExchangeApi;
+import com.example.retrofit_test.Model.Paging.QuestionPagingSource;
 import com.example.retrofit_test.View.Custom.TagsDialog;
-
-import java.util.ArrayList;
-import java.util.List;
+import io.reactivex.rxjava3.core.Flowable;
+import kotlinx.coroutines.CoroutineScope;
 
 public class QuestionFragmentViewModel extends AndroidViewModel {
 
-   // private final Application application;
-    private MutableLiveData<List<Question>> questions = new MutableLiveData<>();
-    private final ApiRepository repository;
     private final QuestionsState questionsState;
     private TagsDialog.TagsDialogListener tagsDialogListener;
+    private Flowable<PagingData<Question>> flowable;
+    private final StackExchangeApi api;
 
     public QuestionFragmentViewModel(@NonNull Application application) {
         super(application);
-        //    this.application = application;
-        repository = new ApiRepository();
+        BaseRetrofit baseRetrofit = new BaseRetrofit();
+        api = baseRetrofit.getApi();
         questionsState = new QuestionsState();
-
     }
 
-    public MutableLiveData<List<Question>> getQuestions(FetchQuestionsCallback fetchQuestionsCallback) {
-        if (questions.getValue() == null || questions.getValue().size() == 0)
-         questions.setValue(fetchData(fetchQuestionsCallback));
-        return questions;
+    public Flowable<PagingData<Question>> getQuestionFlowable(ViewModelStoreOwner viewModelStoreOwner) {
+        if (flowable == null)
+            flowable = fetchQuestionFlowable(viewModelStoreOwner);
+        return flowable;
     }
 
-    public List<Question> fetchData(FetchQuestionsCallback fetchQuestionsCallback) {
-        questions = repository.getQuestion(getQuestionsTags(),getQuestionsState(),fetchQuestionsCallback);
-        return questions.getValue();
-    }
-
-    public void closeNetworkCall() {
-        if (repository == null)
-            return;
-        repository.closeCall();
+    private Flowable<PagingData<Question>> fetchQuestionFlowable(ViewModelStoreOwner viewModelStoreOwner) {
+        Pager<Integer, Question> pager = new Pager<>(
+                new PagingConfig(20, 20, false, 60,80),
+                () -> new QuestionPagingSource(api, viewModelStoreOwner));
+        CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(QuestionFragmentViewModel.this);
+        flowable = PagingRx.getFlowable(pager);
+        return PagingRx.cachedIn(flowable, viewModelScope);
     }
 
     public String getQuestionsTags() {
         return questionsState.getTags();
     }
 
-    private int getQuestionsState() {
+    public int getQuestionsState() {
         return questionsState.getState();
     }
 
     public void setQuestionsState(int state) {
         questionsState.setState(state);
     }
+
     public void setQuestionsTags(String tags) {
         questionsState.setTags(tags);
     }

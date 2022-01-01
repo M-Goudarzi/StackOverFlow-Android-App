@@ -3,7 +3,7 @@ package com.example.retrofit_test.Model.Networking.ModelObject;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class StackExchangeQuestion {
+public class QuestionResponse {
 
     @SerializedName("items")
     private List<Question> questions = null;
