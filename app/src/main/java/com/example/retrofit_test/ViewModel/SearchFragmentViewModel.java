@@ -25,7 +25,6 @@ public class SearchFragmentViewModel extends AndroidViewModel{
 
     private TagsDialog.TagsDialogListener tagsDialogListener;
     private final QuestionSearchFilter searchFilter;
-//    private TagsDialog.TagsDialogListener tagsDialogListener;
     private final SearchDAO dao;
     private LiveData<List<Search>> searchHistoryLiveData = new MutableLiveData<>();
     private final Executor executor;

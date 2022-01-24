@@ -8,13 +8,4 @@
         android:id="@+id/bottom_nav_search"
         android:title="Search"
         android:icon="@drawable/search_24"/>
-    <item
-        android:id="@+id/bottom_nav_ask"
-        android:title="Ask a question"
-        android:icon="@drawable/add_box_24"/>
-    <item
-        android:id="@+id/bottom_nav_profile"
-        android:title="Profile"
-        android:icon="@drawable/account_circle_24"/>
-
 </menu>

@@ -5,24 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
-import android.os.Debug;
 import android.view.View;
-
-import com.example.retrofit_test.MyApplication;
 import com.example.retrofit_test.R;
-import com.example.retrofit_test.View.Fragment.AskQuestionFragment;
 import com.example.retrofit_test.View.Fragment.QuestionFragment;
-import com.example.retrofit_test.View.Fragment.ProfileFragment;
 import com.example.retrofit_test.View.Fragment.SearchFragment;
 import com.example.retrofit_test.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Fragment questionFragment;
-    private Fragment searchFragment;
-    private Fragment askFragment;
-    private Fragment profileFragment;
+    private QuestionFragment questionFragment;
+    private SearchFragment searchFragment;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
     //Current fragment shown on screen
     private Fragment activeFragment;
@@ -49,22 +42,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void retrieveFragments(String fragmentTag) {
-        questionFragment = fragmentManager.findFragmentByTag("Question");
-        searchFragment = fragmentManager.findFragmentByTag("Search");
-        askFragment = fragmentManager.findFragmentByTag("Ask");
-        profileFragment = fragmentManager.findFragmentByTag("Profile");
+        questionFragment = (QuestionFragment) fragmentManager.findFragmentByTag("Question");
+        searchFragment = (SearchFragment) fragmentManager.findFragmentByTag("Search");
         switch (fragmentTag) {
             case "Question" :
                 activeFragment = questionFragment;
                 break;
             case "Search" :
                 activeFragment = searchFragment;
-                break;
-            case "Ask" :
-                activeFragment = askFragment;
-                break;
-            case "Profile" :
-                activeFragment = profileFragment;
                 break;
         }
     }
@@ -98,33 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 activeFragment = searchFragment;
                 return true;
             }
-            else if (item.getItemId() == R.id.bottom_nav_ask) {
-                if (askFragment == activeFragment)
-                    return false;
-                if (askFragment == null) {
-                    askFragment = new AskQuestionFragment();
-                    fragmentManager.beginTransaction().hide(activeFragment).add(R.id.frame_layout_main,askFragment,"Ask").commit();
-                    activeFragment = askFragment;
-                    return true;
-                }
-                fragmentManager.beginTransaction().hide(activeFragment).show(askFragment).commit();
-                activeFragment = askFragment;
-                return true;
-            }
-            else if (item.getItemId() == R.id.bottom_nav_profile) {
-                if (profileFragment == activeFragment)
-                    return false;
-                if (profileFragment == null) {
-                    profileFragment = new ProfileFragment();
-                    fragmentManager.beginTransaction().hide(activeFragment).add(R.id.frame_layout_main,profileFragment,"Profile").commit();
-                    activeFragment = profileFragment;
-                    return true;
-                }
-                fragmentManager.beginTransaction().hide(activeFragment).show(profileFragment).commit();
-                activeFragment = profileFragment;
-                return true;
-            }
-
             else return false;
         });
     }
