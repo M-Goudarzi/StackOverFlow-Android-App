@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
@@ -58,6 +61,7 @@ public class SearchFragment extends Fragment {
         }
         else {
             isFilterLayoutVisible = savedInstanceState.getBoolean("isFilterLayoutVisible");
+            addSelectedTagsToChipGroup(savedInstanceState.getString("selectedChipsStaring"));
         }
 
         if (isFilterLayoutVisible)
@@ -115,6 +119,7 @@ public class SearchFragment extends Fragment {
     };
 
     private void addSelectedTagsToChipGroup(String tagsString) {
+        clearSelectedChipsList();
         if (tagsString.isEmpty())
             return;
         List<String> tagsList = tagsChipHelper.convertTagsStringToList(tagsString);
@@ -123,6 +128,16 @@ public class SearchFragment extends Fragment {
             chip = tagsChipHelper.createChip(tags);
             addChipToSelectedListAndSetClickListener(chip);
             tagsChipGroup.addView(chip);
+        }
+    }
+
+    private void clearSelectedChipsList() {
+        selectedChips.clear();
+        for (int i = 0; i < tagsChipGroup.getChildCount(); i++) {
+            if (tagsChipGroup.getChildAt(i) != binding.addTagsChipSearchFragment) {
+                tagsChipGroup.removeViewAt(i);
+                i -= 1;
+            }
         }
     }
 
@@ -163,5 +178,6 @@ public class SearchFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("isFilterLayoutVisible",isFilterLayoutVisible);
+        outState.putString("selectedChipsStaring",viewModel.getTags());
     }
 }
