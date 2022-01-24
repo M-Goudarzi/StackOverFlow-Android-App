@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="transparent">#0000ffff</color>
 
     <color name="Off_White">#FCF6F5FF</color>
 

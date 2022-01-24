@@ -20,8 +20,8 @@ import kotlinx.coroutines.CoroutineScope;
 
 public class QuestionFragmentViewModel extends AndroidViewModel {
 
-    private final QuestionsState questionsState;
     private TagsDialog.TagsDialogListener tagsDialogListener;
+    private final QuestionsState questionsState;
     private Flowable<PagingData<Question>> flowable;
     private final StackExchangeApi api;
 
@@ -40,15 +40,11 @@ public class QuestionFragmentViewModel extends AndroidViewModel {
 
     private Flowable<PagingData<Question>> fetchQuestionFlowable(ViewModelStoreOwner viewModelStoreOwner) {
         Pager<Integer, Question> pager = new Pager<>(
-                new PagingConfig(20, 20, false, 60,80),
+                new PagingConfig(20, 20, false, 60),
                 () -> new QuestionPagingSource(api, viewModelStoreOwner));
         CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(QuestionFragmentViewModel.this);
         flowable = PagingRx.getFlowable(pager);
         return PagingRx.cachedIn(flowable, viewModelScope);
-    }
-
-    public String getQuestionsTags() {
-        return questionsState.getTags();
     }
 
     public int getQuestionsState() {
@@ -59,8 +55,12 @@ public class QuestionFragmentViewModel extends AndroidViewModel {
         questionsState.setState(state);
     }
 
-    public void setQuestionsTags(String tags) {
+    public void setTags(String tags) {
         questionsState.setTags(tags);
+    }
+
+    public String getTags() {
+        return questionsState.getTags();
     }
 
     public TagsDialog.TagsDialogListener getTagsDialogListener() {
@@ -70,4 +70,5 @@ public class QuestionFragmentViewModel extends AndroidViewModel {
     public void setTagsDialogListener(TagsDialog.TagsDialogListener tagsDialogListener) {
         this.tagsDialogListener = tagsDialogListener;
     }
+
 }

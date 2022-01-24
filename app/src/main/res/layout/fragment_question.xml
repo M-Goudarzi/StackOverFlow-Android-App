@@ -11,7 +11,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linear_home"
+        android:id="@+id/linear_question_fragment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,33 +24,33 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_home"
+                android:id="@+id/chip_group_question_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
                 app:selectionRequired="true"
-                app:checkedChip="@+id/chip_newest"
+                app:checkedChip="@+id/chip_newest_question_fragment"
                 app:singleLine="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_newest"
+                    android:id="@+id/chip_newest_question_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/newest"/>
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_bountied"
+                    android:id="@+id/chip_bountied_question_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bountied"/>
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_unanswered"
+                    android:id="@+id/chip_unanswered_question_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/unanswered"/>
 
                 <com.google.android.material.chip.Chip
                     style="@style/tagsDialogButtonChip"
-                    android:id="@+id/chip_tags"
+                    android:id="@+id/chip_tags_question_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tags"
@@ -64,17 +64,17 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_main"
+        android:id="@+id/swipe_refresh_question_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_home">
+        app:layout_constraintTop_toBottomOf="@id/linear_question_fragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_home_questions"
+            android:id="@+id/rec_questions_question_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -83,7 +83,7 @@
 
     <TextView
         android:visibility="invisible"
-        android:id="@+id/tv_no_questions_home"
+        android:id="@+id/tv_no_questions_question_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_questions_found"

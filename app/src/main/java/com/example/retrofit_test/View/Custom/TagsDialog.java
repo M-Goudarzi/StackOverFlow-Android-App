@@ -1,6 +1,7 @@
 package com.example.retrofit_test.View.Custom;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,31 +18,40 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.retrofit_test.Common.TagsChipHelper;
 import com.example.retrofit_test.R;
+import com.example.retrofit_test.View.Fragment.QuestionFragment;
+import com.example.retrofit_test.View.Fragment.SearchFragment;
 import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
+import com.example.retrofit_test.ViewModel.SearchFragmentViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
-public class TagsDialog extends DialogFragment implements View.OnClickListener {
+public abstract class TagsDialog extends DialogFragment implements View.OnClickListener {
 
-    private static final String TAG = "TagsDialog";
+    public static final String TAG = "TagsDialog";
 
     private View view;
-    private TagsDialogListener dialogListener;
     private ChipGroup chipGroup;
     private EditText editText;
     private ArrayList<Chip> selectedChips;
-    private final ArrayList<String> tags = new ArrayList<>();
+    private final ArrayList<String> tagsList = new ArrayList<>();
+    private TagsChipHelper tagsChipHelper;
 
 
     public TagsDialog() {
     }
 
+    protected abstract List<String> fillUpTagsList();
+    protected abstract void setUpFragmentResult(Bundle bundle);
 
     @NonNull
     @Override
@@ -51,28 +61,27 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.tags_dialog_layout,null);
         builder.setView(view);
         builder.setPositiveButton("Select", (dialogInterface, i) -> {
-            dialogListener.onDialogPositiveClick(getAllSelectedChipsTexts());
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("tagsList",getAllSelectedChipsTexts());
+            setUpFragmentResult(bundle);
             dismiss();
         }).setNeutralButton("Cancel", ((dialogInterface, i) -> dismiss()));
 
-        QuestionFragmentViewModel viewModel = new ViewModelProvider(requireActivity()).get(QuestionFragmentViewModel.class);
-
-        tags.clear();
-        tags.addAll(Arrays.asList(viewModel.getQuestionsTags().split(";")));
+        tagsList.clear();
+        tagsList.addAll(fillUpTagsList());
 
         if (savedInstanceState != null){
-            Log.i(TAG, "onCreateDialog: " + savedInstanceState.getStringArrayList("selectedTags"));
-            tags.addAll(savedInstanceState.getStringArrayList("selectedTags"));
+            tagsList.addAll(savedInstanceState.getStringArrayList("selectedTags"));
         }
-
-        dialogListener = viewModel.getTagsDialogListener();
 
         init();
 
         return builder.create();
     }
 
+
     private void init() {
+        tagsChipHelper = new TagsChipHelper(requireContext());
         editText = view.findViewById(R.id.edit_text_tags_dialog);
         editText.setOnEditorActionListener(editorActionListener);
         ImageButton imageButton = view.findViewById(R.id.image_button_tags_dialog);
@@ -255,18 +264,8 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
     }
 
     private Chip createNewChipAndAddToSelectedList(String chipText) {
-        Chip chip = new Chip(requireContext());
-        ViewGroup.LayoutParams layoutParams =  new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        chip.setLayoutParams(layoutParams);
-        chip.setText(chipText);
-        ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(requireContext(),null,0,R.style.tagsDialogSelectedChip);
-        chip.setChipDrawable(chipDrawable);
-        int chipId = View.generateViewId();
-        chip.setId(chipId);
-        chip.setCheckable(false);
-
+        Chip chip = tagsChipHelper.createChip(chipText);
         addChipToSelectedListAndSetClickListener(chip);
-
         return chip;
     }
 
@@ -304,19 +303,19 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
     }
 
     private ArrayList<String> getAllSelectedChipsTexts() {
-        tags.clear();
+        tagsList.clear();
         for (Chip chip : selectedChips){
-            tags.add(chip.getText().toString());
+            tagsList.add(chip.getText().toString());
         }
-        return tags;
+        return tagsList;
     }
 
     public interface TagsDialogListener {
-        void onDialogPositiveClick(ArrayList<String> tags);
+        void onDialogPositiveClick(Bundle tags);
     }
 
     private void addTagsToSelectedList() {
-        for (String tag : this.tags)
+        for (String tag : this.tagsList)
         addChipToChipGroup(tag);
     }
 
@@ -337,7 +336,7 @@ public class TagsDialog extends DialogFragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        if (((AlertDialog) getDialog()) != null) {
+        if (getDialog() != null) {
             //if night mode set dialog buttons color to white unless black
             int nightModeFlags = requireContext().getResources()
                     .getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

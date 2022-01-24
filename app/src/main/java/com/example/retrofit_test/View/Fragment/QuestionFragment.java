@@ -4,23 +4,32 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.CombinedLoadStates;
 import androidx.paging.LoadState;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.retrofit_test.Common.QuestionsState;
+import com.example.retrofit_test.Common.TagsChipHelper;
 import com.example.retrofit_test.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Adapter.LoadStateAdapter;
-import com.example.retrofit_test.View.Adapter.RecQuestionQuestionAdapter;
+import com.example.retrofit_test.View.Adapter.RecQuestionAdapter;
+import com.example.retrofit_test.View.Custom.QuestionTagsDialog;
 import com.example.retrofit_test.View.Custom.TagsDialog;
 import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
+import com.example.retrofit_test.databinding.FragmentQuestionBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
@@ -32,18 +41,23 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class QuestionFragment extends Fragment {
+public class QuestionFragment extends Fragment{
 
     private static final String TAG = "HomeFragment";
 
-    private RecQuestionQuestionAdapter adapter;
+    private RecQuestionAdapter adapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private QuestionFragmentViewModel viewModel;
-    private View view;
     private TextView noQuestionTextVie;
     private ChipGroup chipGroup;
     private Disposable getQuestionDisposable;
+    private TagsChipHelper tagsChipHelper;
+
+    // a boolean value to check if recyclerview needs to scroll to position 0 at refresh or its screen orientation.
+    private boolean isRotation;
+
+    private FragmentQuestionBinding binding;
 
     public QuestionFragment() {
         // Required empty public constructor
@@ -52,16 +66,19 @@ public class QuestionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         boolean isBeingCreatedForFirstTime = savedInstanceState == null;
 
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_question, container, false);
+        binding = FragmentQuestionBinding.inflate(inflater,container,false);
+        View view = binding.getRoot();
 
         init();
 
         if (!isBeingCreatedForFirstTime) {
             chipGroup.check(savedInstanceState.getInt("CheckedChip"));
+            isRotation = true;
+        }
+        else {
+            isRotation = false;
         }
 
        getQuestionDisposable = viewModel.getQuestionFlowable(requireActivity())
@@ -74,51 +91,45 @@ public class QuestionFragment extends Fragment {
     }
 
     private void init() {
+        tagsChipHelper = new TagsChipHelper(requireContext());
         viewModel = new ViewModelProvider(requireActivity()).get(QuestionFragmentViewModel.class);
-        chipGroup = view.findViewById(R.id.chip_group_home);
+        chipGroup = binding.chipGroupQuestionFragment;
         chipGroup.setOnCheckedChangeListener(checkedChangeListener);
-        Chip tagChip = view.findViewById(R.id.chip_tags);
+        Chip tagChip = binding.chipTagsQuestionFragment;
         tagChip.setOnClickListener(tagChipClickListener);
-        refreshLayout = view.findViewById(R.id.swipe_refresh_main);
+        refreshLayout = binding.swipeRefreshQuestionFragment;
         refreshLayout.setOnRefreshListener(onRefreshListener);
-        recyclerView = view.findViewById(R.id.rec_home_questions);
+        recyclerView = binding.recQuestionsQuestionFragment;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecQuestionQuestionAdapter(new QuestionComparator(), Markwon.create(requireContext()));
+        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(requireContext()));
         recyclerView.setAdapter(adapter.withLoadStateFooter(new LoadStateAdapter(v -> adapter.retry())));
         adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         adapter.addLoadStateListener(loadStateListener);
-        noQuestionTextVie = view.findViewById(R.id.tv_no_questions_home);
+        noQuestionTextVie = binding.tvNoQuestionsQuestionFragment;
     }
 
     private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> adapter.refresh();
 
     private final View.OnClickListener tagChipClickListener = (view) -> {
         if (isAdded()) {
-            DialogFragment tagsDialog = new TagsDialog();
-            tagsDialog.show(getParentFragmentManager(),"tagsDialog");
+            DialogFragment tagsDialog = new QuestionTagsDialog();
+            tagsDialog.show(getParentFragmentManager(),TagsDialog.TAG);
         }
     };
 
-    // Convert an array of tags to one String of tags separated by ';'
-    private String buildTagString(ArrayList<String> tags) {
-        StringBuilder tagsString = new StringBuilder();
-        for (String tag : tags) {
-            if (tags.get(0).equals(tag))
-                tagsString = new StringBuilder(tag);
-            else {
-                tagsString.append(";").append(tag);
-            }
-        }
-        return tagsString.toString();
-    }
+    private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
+        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList("tagsList"));
+        viewModel.setTags(tagsString);
+        adapter.refresh();
+    };
 
     private final ChipGroup.OnCheckedChangeListener checkedChangeListener = (group, checkedId) -> {
-        if (checkedId == R.id.chip_newest)
+        if (checkedId == R.id.chip_newest_question_fragment)
             viewModel.setQuestionsState(QuestionsState.NEWEST);
-        if (checkedId == R.id.chip_bountied)
+        if (checkedId == R.id.chip_bountied_question_fragment)
             viewModel.setQuestionsState(QuestionsState.BOUNTIED);
-        if (checkedId == R.id.chip_unanswered)
+        if (checkedId == R.id.chip_unanswered_question_fragment)
             viewModel.setQuestionsState(QuestionsState.UNANSWERED);
 
         adapter.refresh();
@@ -130,13 +141,6 @@ public class QuestionFragment extends Fragment {
         outState.putInt("CheckedChip",chipGroup.getCheckedChipId());
     }
 
-
-    private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
-        String tagsString = buildTagString(tags);
-        viewModel.setQuestionsTags(tagsString);
-
-        adapter.refresh();
-    };
     PublishSubject<CombinedLoadStates> subject = PublishSubject.create();
     Disposable loadStateDisposable =
             subject.distinctUntilChanged(CombinedLoadStates::getRefresh)
@@ -146,7 +150,10 @@ public class QuestionFragment extends Fragment {
                             refreshLayout.setRefreshing(false);
                             if (adapter.getItemCount() > 0) {
                                 noQuestionTextVie.setVisibility(View.INVISIBLE);
-                                recyclerView.scrollToPosition(0);
+                                if (!isRotation)
+                                    recyclerView.scrollToPosition(0);
+                                else
+                                    isRotation = false;
                             }
                             else {
                                 noQuestionTextVie.setText(R.string.no_questions_found);
@@ -175,5 +182,7 @@ public class QuestionFragment extends Fragment {
         loadStateDisposable.dispose();
         super.onDestroy();
     }
+
+
 }
 

@@ -1,15 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".View.Fragment.SearchFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Fragment.SearchFragment">
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        >
 
-</FrameLayout>
+        <EditText
+            android:textIsSelectable="false"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/myBlack"
+            android:id="@+id/search_edittext_search_fragment"
+            android:hint="Search for anything"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_layout"
+            android:drawableStart="@drawable/search_icon"
+            android:drawablePadding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <HorizontalScrollView
+            android:id="@+id/tags_scroll_search_fragment"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_edittext_search_fragment">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tags_chip_group_search_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/add_tags_chip_search_fragment"
+                    style="@style/tagsDialogButtonChip"
+                    android:checkable="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipIcon="@drawable/add_24"
+                    app:chipIconEnabled="true"
+                    app:iconStartPadding="3dp"
+                    app:iconEndPadding="3dp"
+                    android:text="Add tags"
+                    />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="@color/white"
+            android:textColor="@color/myBlack"
+            android:layout_margin="20dp"
+            android:id="@+id/filter_button_search_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tags_scroll_search_fragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Filters"
+            android:textAlignment="textStart"
+            android:drawableEnd="@drawable/arrow_drop_down_24"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/filter_layout_search_fragment"
+            android:padding="10dp"
+            android:background="@drawable/custom_layout"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter_button_search_fragment">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                app:trackTint="@color/myBlack"
+                android:id="@+id/has_answer_switch_search_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Only questions with accepted answers"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/closed_switch_search_fragment"
+                app:trackTint="@color/myBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/has_answer_switch_search_fragment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="only closed questions"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linear_answers_search_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/closed_switch_search_fragment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:gravity="center_vertical"
+                    android:id="@+id/tv_answers_search_fragment"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:text="minimum number of answers must have"
+                    />
+
+                <EditText
+                    android:id="@+id/number_of_answers_edittext"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_layout"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <EditText
+                android:textIsSelectable="false"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/myBlack"
+                android:id="@+id/title_contains_search_fragment"
+                android:hint="Title must contains"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_answers_search_fragment"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:textIsSelectable="false"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/myBlack"
+                android:id="@+id/body_contains_search_fragment"
+                android:hint="Body must contains"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_contains_search_fragment"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"/>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/body_contains_search_fragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/search_button_search_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_layout_search_fragment"
+            android:layout_margin="20dp"
+            android:background="@color/ForestGreen"
+            android:elevation="20dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:text="Search"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rec_questions_search_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/search_button_search_fragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"
+            />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_margin="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rec_questions_search_fragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

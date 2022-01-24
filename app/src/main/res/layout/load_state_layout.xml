@@ -18,6 +18,7 @@
         android:layout_gravity="center" />
 
     <Button
+        style="@style/myButton"
         android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

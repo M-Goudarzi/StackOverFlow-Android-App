@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.R;
 import java.util.ArrayList;
+
 import androidx.paging.PagingDataAdapter;
 import io.noties.markwon.Markwon;
 
-public class RecQuestionQuestionAdapter extends PagingDataAdapter<Question,RecQuestionQuestionAdapter.MyViewHolder> {
+public class RecQuestionAdapter extends PagingDataAdapter<Question, RecQuestionAdapter.MyViewHolder> {
 
     private final Markwon markwon;
 
-    public RecQuestionQuestionAdapter(@NonNull DiffUtil.ItemCallback<Question> diffCallback, Markwon markwon) {
+    public RecQuestionAdapter(@NonNull DiffUtil.ItemCallback<Question> diffCallback, Markwon markwon) {
         super(diffCallback);
         this.markwon = markwon;
     }
@@ -26,7 +27,7 @@ public class RecQuestionQuestionAdapter extends PagingDataAdapter<Question,RecQu
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_question_questions,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_question,parent,false);
         return new MyViewHolder(view);
     }
 
@@ -52,7 +53,7 @@ public class RecQuestionQuestionAdapter extends PagingDataAdapter<Question,RecQu
             tvQuestionVotes = itemView.findViewById(R.id.tv_question_info_votes);
             tvQuestionAnswers = itemView.findViewById(R.id.tv_question_info_answers);
             tvQuestionViews = itemView.findViewById(R.id.tv_question_info_views);
-            recyclerView = itemView.findViewById(R.id.rec_home_tags);
+            recyclerView = itemView.findViewById(R.id.rec_question_tags);
             layoutManager = new LinearLayoutManager(itemView.getContext(),LinearLayoutManager.HORIZONTAL,false);
             tags = new ArrayList<>();
             adapter = new RecQuestionTagAdapter(tags);

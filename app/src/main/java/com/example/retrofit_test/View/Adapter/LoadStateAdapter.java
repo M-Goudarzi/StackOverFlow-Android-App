@@ -46,19 +46,21 @@ public class LoadStateAdapter extends androidx.paging.LoadStateAdapter<LoadState
         }
 
         private void bind(LoadState loadState) {
+            // Check load state
             if (loadState instanceof LoadState.Error) {
+                // Get the error
                 LoadState.Error loadStateError = (LoadState.Error) loadState;
+                // Set text of Error message
                 mErrorMsg.setText(loadStateError.getError().getLocalizedMessage());
-                mRetry.setVisibility(View.VISIBLE);
-                mErrorMsg.setVisibility(View.VISIBLE);
             }
+            // set visibility of widgets based on LoadState
+            mProgressBar.setVisibility(loadState instanceof LoadState.Loading
+                    ? View.VISIBLE : View.GONE);
+            mRetry.setVisibility(loadState instanceof LoadState.Error
+                    ? View.VISIBLE : View.GONE);
+            mErrorMsg.setVisibility(loadState instanceof LoadState.Error
+                    ? View.VISIBLE : View.GONE);
 
-            else if (loadState instanceof LoadState.Loading) {
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
-            else if (loadState instanceof LoadState.NotLoading) {
-                mProgressBar.setVisibility(View.GONE);
-            }
         }
     }
 }

@@ -23,7 +23,7 @@ class RecQuestionTagAdapter extends RecyclerView.Adapter<RecQuestionTagAdapter.M
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_question_tags,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_tags,parent,false);
         return new MyHolder(view);
     }
 

@@ -1,7 +1,5 @@
 package com.example.retrofit_test.Model.Paging;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,22 +9,21 @@ import androidx.paging.rxjava3.RxPagingSource;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.Model.Networking.ModelObject.QuestionResponse;
 import com.example.retrofit_test.Model.Networking.StackExchangeApi;
-import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
-import com.example.retrofit_test.Common.QuestionsState;
+import com.example.retrofit_test.ViewModel.SearchFragmentViewModel;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class QuestionPagingSource extends RxPagingSource<Integer, Question> {
-
-    private static final String TAG = "QuestionPagingSource";
+public class SearchQuestionPagingSource extends RxPagingSource<Integer, Question> {
 
     private Integer page;
     private final StackExchangeApi api;
-    private final QuestionFragmentViewModel viewModel;
+//    private final SearchFragmentViewModel viewModel;
+    private final String searchQuery;
 
-    public QuestionPagingSource(StackExchangeApi api, ViewModelStoreOwner viewModelStoreOwner) {
+    public SearchQuestionPagingSource(StackExchangeApi api, String searchQuery) {
         this.api = api;
-        this.viewModel = new ViewModelProvider(viewModelStoreOwner).get(QuestionFragmentViewModel.class);
+  //      viewModel = new ViewModelProvider(viewModelStoreOwner).get(SearchFragmentViewModel.class);
+        this.searchQuery = searchQuery;
     }
 
     @NonNull
@@ -37,18 +34,16 @@ public class QuestionPagingSource extends RxPagingSource<Integer, Question> {
         if (page == null)
             page = 1;
 
-        Single<QuestionResponse> questionSingle;
-        switch (viewModel.getQuestionsState()) {
-            case QuestionsState.BOUNTIED:
-                questionSingle = api.getBountiedQuestionsWithPaging(viewModel.getTags(),page);
-                break;
-            case QuestionsState.UNANSWERED:
-                questionSingle = api.getUnAnsweredQuestionsWithPaging(viewModel.getTags(),page);
-                break;
-            default: {
-                questionSingle = api.getNewestQuestionsWithPaging(viewModel.getTags(),page);
-            }
-        }
+        Single<QuestionResponse> questionSingle = api.search(
+                page,
+                searchQuery,
+                true,
+                false,
+                0,
+                "",
+                "",
+                ""
+                );
 
         return questionSingle
                 .subscribeOn(Schedulers.io())
@@ -89,7 +84,7 @@ public class QuestionPagingSource extends RxPagingSource<Integer, Question> {
             return nextKey - 1;
         }
 
-        return null;
-    }
+        return null;    }
+
 
 }
