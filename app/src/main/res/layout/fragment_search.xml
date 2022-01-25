@@ -21,7 +21,7 @@
             android:maxLines="1"
             android:textColor="@color/myBlack"
             android:id="@+id/search_edittext_search_fragment"
-            android:hint="Search for anything"
+            android:hint="@string/search_for_any_question_property"
             android:textSize="16sp"
             android:padding="10dp"
             android:layout_margin="20dp"
@@ -59,7 +59,7 @@
                     app:chipIconEnabled="true"
                     app:iconStartPadding="3dp"
                     app:iconEndPadding="3dp"
-                    android:text="Add tags"
+                    android:text="@string/add_tags"
                     />
 
             </com.google.android.material.chip.ChipGroup>
@@ -105,7 +105,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="Only questions with accepted answers"/>
+                android:text="@string/only_questions_with_accepted_answers"/>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/closed_switch_search_fragment"
@@ -115,7 +115,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/has_answer_switch_search_fragment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="only closed questions"/>
+                android:text="@string/only_closed_questions"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linear_answers_search_fragment"
@@ -155,7 +155,7 @@
                 android:maxLines="1"
                 android:textColor="@color/myBlack"
                 android:id="@+id/title_contains_search_fragment"
-                android:hint="Title must contains"
+                android:hint="@string/title_must_contain"
                 android:textSize="16sp"
                 android:padding="10dp"
                 android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                 android:maxLines="1"
                 android:textColor="@color/myBlack"
                 android:id="@+id/body_contains_search_fragment"
-                android:hint="Body must contains"
+                android:hint="@string/body_must_contain"
                 android:textSize="16sp"
                 android:padding="10dp"
                 android:layout_width="match_parent"
@@ -207,14 +207,24 @@
             android:elevation="20dp"
             android:textColor="@color/white"
             android:textAlignment="center"
-            android:text="Search"/>
+            android:text="@string/search"/>
 
+        <TextView
+            android:gravity="start"
+            android:id="@+id/tv_history_search_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_history"
+            app:layout_constraintTop_toBottomOf="@+id/search_button_search_fragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rec_questions_search_fragment"
-            app:layout_constraintTop_toBottomOf="@+id/search_button_search_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_history_search_fragment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="10dp"

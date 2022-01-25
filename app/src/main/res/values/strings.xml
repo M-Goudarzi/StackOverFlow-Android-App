@@ -43,7 +43,7 @@
     <string name="bountied">Bountied</string>
     <string name="unanswered">Unanswered</string>
     <string name="tags">Tags</string>
-    
+
     <string name="QuestionVotes">%1$d Votes</string>
     <string name="QuestionAnswers">%1$d Answers</string>
     <string name="QuestionViews">%1$d Views</string>
@@ -51,5 +51,14 @@
     <string name="no_questions_found">No Questions Found</string>
     <string name="retry">Retry</string>
     <string name="question_loading_error">Error Loading Question from server!</string>
+    <string name="search_result">Search result</string>
+    <string name="search_for_any_question_property">Search for any question property</string>
+    <string name="only_questions_with_accepted_answers">Only questions with accepted answers</string>
+    <string name="only_closed_questions">only closed questions</string>
+    <string name="title_must_contain">Title must contain</string>
+    <string name="body_must_contain">Body must contain</string>
+    <string name="search">Search</string>
+    <string name="add_tags">Add tags</string>
+    <string name="search_history">Search history</string>
 
 </resources>

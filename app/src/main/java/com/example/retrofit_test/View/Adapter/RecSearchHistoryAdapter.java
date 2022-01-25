@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RecSearchAdapter extends RecyclerView.Adapter<RecSearchAdapter.MyViewHolder> {
+public class RecSearchHistoryAdapter extends RecyclerView.Adapter<RecSearchHistoryAdapter.MyViewHolder> {
 
     private ArrayList<Search> searchList;
 
-    public RecSearchAdapter(ArrayList<Search> searchList) {
+    public RecSearchHistoryAdapter(ArrayList<Search> searchList) {
         this.searchList = searchList;
     }
 
@@ -30,13 +30,13 @@ public class RecSearchAdapter extends RecyclerView.Adapter<RecSearchAdapter.MyVi
         final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new SearchComparator(searchList,newSearchList));
         searchList.clear();
         searchList.addAll(newSearchList);
-        result.dispatchUpdatesTo(RecSearchAdapter.this);
+        result.dispatchUpdatesTo(RecSearchHistoryAdapter.this);
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_search,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_search_history,parent,false);
         return new MyViewHolder(view);
     }
 
@@ -69,7 +69,7 @@ public class RecSearchAdapter extends RecyclerView.Adapter<RecSearchAdapter.MyVi
         }
 
         public void bind(int position) {
-            searchQueryTv.setText(searchList.get(position).getQuery());
+            searchQueryTv.setText("\" " + searchList.get(position).getQuery() + " \"");
             tags.clear();
             tags.addAll(createTagsArray(searchList.get(position).getTags()));
             adapter.notifyDataSetChanged();

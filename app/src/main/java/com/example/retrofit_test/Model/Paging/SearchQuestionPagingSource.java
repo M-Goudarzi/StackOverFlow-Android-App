@@ -2,14 +2,13 @@ package com.example.retrofit_test.Model.Paging;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.paging.PagingState;
 import androidx.paging.rxjava3.RxPagingSource;
+
+import com.example.retrofit_test.Common.QuestionSearchFilter;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.Model.Networking.ModelObject.QuestionResponse;
 import com.example.retrofit_test.Model.Networking.StackExchangeApi;
-import com.example.retrofit_test.ViewModel.SearchFragmentViewModel;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -17,13 +16,13 @@ public class SearchQuestionPagingSource extends RxPagingSource<Integer, Question
 
     private Integer page;
     private final StackExchangeApi api;
-//    private final SearchFragmentViewModel viewModel;
     private final String searchQuery;
+    private final QuestionSearchFilter searchFilter;
 
-    public SearchQuestionPagingSource(StackExchangeApi api, String searchQuery) {
+    public SearchQuestionPagingSource(StackExchangeApi api, String searchQuery, QuestionSearchFilter searchFilter) {
         this.api = api;
-  //      viewModel = new ViewModelProvider(viewModelStoreOwner).get(SearchFragmentViewModel.class);
         this.searchQuery = searchQuery;
+        this.searchFilter = searchFilter;
     }
 
     @NonNull
@@ -37,12 +36,12 @@ public class SearchQuestionPagingSource extends RxPagingSource<Integer, Question
         Single<QuestionResponse> questionSingle = api.search(
                 page,
                 searchQuery,
-                true,
-                false,
-                0,
-                "",
-                "",
-                ""
+                searchFilter.getHasAccepted(),
+                searchFilter.isClosed(),
+                searchFilter.getMinimumAnswers(),
+                searchFilter.getBodyContains(),
+                searchFilter.getTitleContains(),
+                searchFilter.getTags()
                 );
 
         return questionSingle

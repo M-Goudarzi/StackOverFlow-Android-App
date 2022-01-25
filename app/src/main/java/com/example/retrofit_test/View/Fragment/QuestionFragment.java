@@ -4,8 +4,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.CombinedLoadStates;
 import androidx.paging.LoadState;
@@ -13,9 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +27,7 @@ import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
 import com.example.retrofit_test.databinding.FragmentQuestionBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import java.util.ArrayList;
+
 import autodispose2.AutoDispose;
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider;
 import io.noties.markwon.Markwon;
@@ -49,7 +44,7 @@ public class QuestionFragment extends Fragment{
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private QuestionFragmentViewModel viewModel;
-    private TextView noQuestionTextVie;
+    private TextView noQuestionTextView;
     private ChipGroup chipGroup;
     private Disposable getQuestionDisposable;
     private TagsChipHelper tagsChipHelper;
@@ -100,13 +95,13 @@ public class QuestionFragment extends Fragment{
         refreshLayout = binding.swipeRefreshQuestionFragment;
         refreshLayout.setOnRefreshListener(onRefreshListener);
         recyclerView = binding.recQuestionsQuestionFragment;
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(requireContext()));
         recyclerView.setAdapter(adapter.withLoadStateFooter(new LoadStateAdapter(v -> adapter.retry())));
         adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         adapter.addLoadStateListener(loadStateListener);
-        noQuestionTextVie = binding.tvNoQuestionsQuestionFragment;
+        noQuestionTextView = binding.tvNoQuestionsQuestionFragment;
     }
 
     private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> adapter.refresh();
@@ -149,25 +144,25 @@ public class QuestionFragment extends Fragment{
                         if (combinedLoadStates.getRefresh() instanceof LoadState.NotLoading) {
                             refreshLayout.setRefreshing(false);
                             if (adapter.getItemCount() > 0) {
-                                noQuestionTextVie.setVisibility(View.INVISIBLE);
+                                noQuestionTextView.setVisibility(View.INVISIBLE);
                                 if (!isRotation)
                                     recyclerView.scrollToPosition(0);
                                 else
                                     isRotation = false;
                             }
                             else {
-                                noQuestionTextVie.setText(R.string.no_questions_found);
-                                noQuestionTextVie.setVisibility(View.VISIBLE);
+                                noQuestionTextView.setText(R.string.no_questions_found);
+                                noQuestionTextView.setVisibility(View.VISIBLE);
                             }
                         }
                         if (combinedLoadStates.getRefresh() instanceof LoadState.Loading) {
                             refreshLayout.setRefreshing(true);
-                            noQuestionTextVie.setVisibility(View.INVISIBLE);
+                            noQuestionTextView.setVisibility(View.INVISIBLE);
                         }
                         else if (combinedLoadStates.getRefresh() instanceof LoadState.Error) {
                             refreshLayout.setRefreshing(false);
-                            noQuestionTextVie.setVisibility(View.VISIBLE);
-                            noQuestionTextVie.setText(((LoadState.Error) combinedLoadStates.getRefresh()).getError().getMessage());
+                            noQuestionTextView.setVisibility(View.VISIBLE);
+                            noQuestionTextView.setText(((LoadState.Error) combinedLoadStates.getRefresh()).getError().getMessage());
                         }
                     });
 
