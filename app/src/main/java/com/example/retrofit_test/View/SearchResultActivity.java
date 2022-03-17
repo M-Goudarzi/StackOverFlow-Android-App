@@ -65,6 +65,9 @@ public class SearchResultActivity extends AppCompatActivity {
             searchQuery = "";
         searchFilter = new QuestionSearchFilter();
         String searchTags = intent.getStringExtra("searchTags");
+        boolean searchOnlyOneTag = intent.getBooleanExtra("searchOnlyOneTag",false);
+        if (searchOnlyOneTag)
+            binding.tvToolbarSearchResult.setText(searchTags);
         boolean searchIsAcceptedBool = intent.getBooleanExtra("searchIsAcceptedBool", false);
         boolean searchIsClosedBool = intent.getBooleanExtra("searchIsClosedBool", false);
         int searchNumberOfAnswers = intent.getIntExtra("searchNumberOfAnswers", 0);

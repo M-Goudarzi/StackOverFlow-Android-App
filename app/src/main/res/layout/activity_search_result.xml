@@ -23,6 +23,7 @@
             app:layout_scrollFlags="scroll">
 
             <TextView
+                android:id="@+id/tv_toolbar_search_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
