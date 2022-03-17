@@ -1,29 +1,33 @@
 package com.example.retrofit_test.View.Adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.retrofit_test.Model.DB.Entity.DiffUtil.SearchComparator;
 import com.example.retrofit_test.Model.DB.Entity.Search;
-import com.example.retrofit_test.R;
-
+import com.example.retrofit_test.View.SearchResultActivity;
+import com.example.retrofit_test.databinding.ItemRecSearchHistoryBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class RecSearchHistoryAdapter extends RecyclerView.Adapter<RecSearchHistoryAdapter.MyViewHolder> {
 
-    private ArrayList<Search> searchList;
+    private final ArrayList<Search> searchList;
+    private final Activity activity;
+    private ItemRecSearchHistoryBinding binding;
 
-    public RecSearchHistoryAdapter(ArrayList<Search> searchList) {
+    public RecSearchHistoryAdapter(ArrayList<Search> searchList, Activity activity) {
         this.searchList = searchList;
+        this.activity = activity;
     }
 
     public void setSearchList(ArrayList<Search> newSearchList) {
@@ -36,13 +40,25 @@ public class RecSearchHistoryAdapter extends RecyclerView.Adapter<RecSearchHisto
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rec_search_history,parent,false);
+        binding = ItemRecSearchHistoryBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        View view = binding.getRoot();
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.bind(position);
+        binding.constraintItemSearchHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, SearchResultActivity.class);
+            intent.putExtra("searchQuery",searchList.get(position).query);
+            intent.putExtra("searchTags",searchList.get(position).tags);
+            intent.putExtra("searchIsAcceptedBool",searchList.get(position).hasAccepted);
+            intent.putExtra("searchIsClosedBool",searchList.get(position).closed);
+            intent.putExtra("searchNumberOfAnswers",searchList.get(position).minimumAnswers);
+            intent.putExtra("searchTitleContains",searchList.get(position).titleContains);
+            intent.putExtra("searchBodyContains",searchList.get(position).bodyContains);
+            activity.startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        });
     }
 
     @Override
@@ -59,8 +75,8 @@ public class RecSearchHistoryAdapter extends RecyclerView.Adapter<RecSearchHisto
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            searchQueryTv = itemView.findViewById(R.id.search_query);
-            RecyclerView recyclerView = itemView.findViewById(R.id.rec_search_tags);
+            searchQueryTv = binding.searchQuery;
+            RecyclerView recyclerView = binding.recSearchTags;
             layoutManager = new LinearLayoutManager(itemView.getContext(),LinearLayoutManager.HORIZONTAL,false);
             tags = new ArrayList<>();
             adapter = new RecQuestionTagAdapter(tags);

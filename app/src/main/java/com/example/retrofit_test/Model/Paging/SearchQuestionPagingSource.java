@@ -14,7 +14,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SearchQuestionPagingSource extends RxPagingSource<Integer, Question> {
 
-    private Integer page;
     private final StackExchangeApi api;
     private final String searchQuery;
     private final QuestionSearchFilter searchFilter;
@@ -29,7 +28,7 @@ public class SearchQuestionPagingSource extends RxPagingSource<Integer, Question
     @Override
     public Single<LoadResult<Integer, Question>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
 
-        page = loadParams.getKey();
+        Integer page = loadParams.getKey();
         if (page == null)
             page = 1;
 
@@ -54,7 +53,7 @@ public class SearchQuestionPagingSource extends RxPagingSource<Integer, Question
         return new LoadResult.Page<>(
                 response.getQuestions(),
                 null,
-                response.getHasMore() ? page+1 : null,
+                response.getHasMore() ? response.getPage()+1 : null,
                 LoadResult.Page.COUNT_UNDEFINED,
                 LoadResult.Page.COUNT_UNDEFINED
         );

@@ -3,36 +3,36 @@ package com.example.retrofit_test.View.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.retrofit_test.R;
 import com.example.retrofit_test.databinding.ItemRecTagsBinding;
+import com.example.retrofit_test.databinding.ItemRecTagsQuestionActivityBinding;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
-class RecQuestionTagAdapter extends RecyclerView.Adapter<RecQuestionTagAdapter.MyHolder> {
+public class RecTagQuestionActivityAdapter extends RecyclerView.Adapter<RecTagQuestionActivityAdapter.MyHolder> {
 
-    private ArrayList<String> tags;
-    private ItemRecTagsBinding binding;
+    private final ArrayList<String> tags;
+    private ItemRecTagsQuestionActivityBinding binding;
 
-    public RecQuestionTagAdapter(ArrayList<String> tags) {
+    public RecTagQuestionActivityAdapter(ArrayList<String> tags) {
         this.tags = tags;
     }
 
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemRecTagsBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        binding = ItemRecTagsQuestionActivityBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         View view = binding.getRoot();
         return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.tvTag.setText(tags.get(position));
+        holder.chip.setText(tags.get(position));
     }
 
     @Override
@@ -42,11 +42,11 @@ class RecQuestionTagAdapter extends RecyclerView.Adapter<RecQuestionTagAdapter.M
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTag;
+        Chip chip;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            tvTag = binding.tvItemRecHomeTags;
+            chip = binding.chipTagItemRecQuestionActivity;
         }
     }
 }

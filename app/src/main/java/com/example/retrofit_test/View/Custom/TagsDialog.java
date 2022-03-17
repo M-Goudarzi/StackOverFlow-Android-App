@@ -1,14 +1,11 @@
 package com.example.retrofit_test.View.Custom;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,20 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.retrofit_test.Common.TagsChipHelper;
 import com.example.retrofit_test.R;
-import com.example.retrofit_test.View.Fragment.QuestionFragment;
-import com.example.retrofit_test.View.Fragment.SearchFragment;
-import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
-import com.example.retrofit_test.ViewModel.SearchFragmentViewModel;
+import com.example.retrofit_test.databinding.TagsDialogLayoutBinding;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,12 +28,12 @@ public abstract class TagsDialog extends DialogFragment implements View.OnClickL
 
     public static final String TAG = "TagsDialog";
 
-    private View view;
     private ChipGroup chipGroup;
     private EditText editText;
     private ArrayList<Chip> selectedChips;
     private final ArrayList<String> tagsList = new ArrayList<>();
     private TagsChipHelper tagsChipHelper;
+    private TagsDialogLayoutBinding binding;
 
 
     public TagsDialog() {
@@ -57,8 +46,8 @@ public abstract class TagsDialog extends DialogFragment implements View.OnClickL
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),R.style.myAlertDialog);
-        LayoutInflater inflater = requireActivity().getLayoutInflater();
-        view = inflater.inflate(R.layout.tags_dialog_layout,null);
+        binding = TagsDialogLayoutBinding.inflate(LayoutInflater.from(requireContext()));
+        View view = binding.getRoot();
         builder.setView(view);
         builder.setPositiveButton("Select", (dialogInterface, i) -> {
             Bundle bundle = new Bundle();
@@ -82,42 +71,42 @@ public abstract class TagsDialog extends DialogFragment implements View.OnClickL
 
     private void init() {
         tagsChipHelper = new TagsChipHelper(requireContext());
-        editText = view.findViewById(R.id.edit_text_tags_dialog);
+        editText = binding.editTextTagsDialog;
         editText.setOnEditorActionListener(editorActionListener);
-        ImageButton imageButton = view.findViewById(R.id.image_button_tags_dialog);
+        ImageButton imageButton = binding.imageButtonTagsDialog;
         imageButton.setOnClickListener(imageButtonClickListener);
         selectedChips = new ArrayList<>();
-        chipGroup = view.findViewById(R.id.chip_group_tags_dialog);
-        Chip pythonChip = view.findViewById(R.id.chip_python_tags_dialog);
-        Chip javaChip = view.findViewById(R.id.chip_java_tags_dialog);
-        Chip csharpChip = view.findViewById(R.id.chip_csharp_tags_dialog);
-        Chip phpChip = view.findViewById(R.id.chip_php_tags_dialog);
-        Chip androidChip = view.findViewById(R.id.chip_android_tags_dialog);
-        Chip htmlChip = view.findViewById(R.id.chip_html_tags_dialog);
-        Chip jqueryChip = view.findViewById(R.id.chip_jquery_tags_dialog);
-        Chip cppChip = view.findViewById(R.id.chip_cpp_tags_dialog);
-        Chip cssChip = view.findViewById(R.id.chip_css_tags_dialog);
-        Chip iosChip = view.findViewById(R.id.chip_ios_tags_dialog);
-        Chip mysqlChip = view.findViewById(R.id.chip_mysql_tags_dialog);
-        Chip sqlChip = view.findViewById(R.id.chip_sql_tags_dialog);
-        Chip rChip = view.findViewById(R.id.chip_r_tags_dialog);
-        Chip nodejsChip = view.findViewById(R.id.chip_node_js_tags_dialog);
-        Chip arraysChip = view.findViewById(R.id.chip_arrays_tags_dialog);
-        Chip cChip = view.findViewById(R.id.chip_c_tags_dialog);
-        Chip aspnetChip = view.findViewById(R.id.chip_asp_net_tags_dialog);
-        Chip reactjsChip = view.findViewById(R.id.chip_reactjs_tags_dialog);
-        Chip rubyonrailsChip = view.findViewById(R.id.chip_ruby_on_rails_tags_dialog);
-        Chip javascriptChip = view.findViewById(R.id.chip_javascript_tags_dialog);
-        Chip netChip = view.findViewById(R.id.chip_dot_net_tags_dialog);
-        Chip sqlserverChip = view.findViewById(R.id.chip_sql_server_tags_dialog);
-        Chip swiftChip = view.findViewById(R.id.chip_swift_tags_dialog);
-        Chip python3xChip = view.findViewById(R.id.chip_python_3_x_tags_dialog);
-        Chip objectiveChip = view.findViewById(R.id.chip_objective_c_tags_dialog);
-        Chip djangoChip = view.findViewById(R.id.chip_django_tags_dialog);
-        Chip angularChip = view.findViewById(R.id.chip_angular_tags_dialog);
-        Chip angularjsChip = view.findViewById(R.id.chip_angularjs_tags_dialog);
-        Chip excelChip = view.findViewById(R.id.chip_excel_tags_dialog);
-        Chip jsonChip = view.findViewById(R.id.chip_json_tags_dialog);
+        chipGroup = binding.chipGroupTagsDialog;
+        Chip pythonChip = binding.chipPythonTagsDialog;
+        Chip javaChip = binding.chipJavaTagsDialog;
+        Chip csharpChip = binding.chipCsharpTagsDialog;
+        Chip phpChip = binding.chipPhpTagsDialog;
+        Chip androidChip = binding.chipAndroidTagsDialog;
+        Chip htmlChip = binding.chipHtmlTagsDialog;
+        Chip jqueryChip = binding.chipJqueryTagsDialog;
+        Chip cppChip = binding.chipCppTagsDialog;
+        Chip cssChip = binding.chipCssTagsDialog;
+        Chip iosChip = binding.chipIosTagsDialog;
+        Chip mysqlChip = binding.chipMysqlTagsDialog;
+        Chip sqlChip = binding.chipSqlTagsDialog;
+        Chip rChip = binding.chipRTagsDialog;
+        Chip nodejsChip = binding.chipNodeJsTagsDialog;
+        Chip arraysChip = binding.chipArraysTagsDialog;
+        Chip cChip = binding.chipCTagsDialog;
+        Chip aspnetChip = binding.chipAspNetTagsDialog;
+        Chip reactjsChip = binding.chipReactjsTagsDialog;
+        Chip rubyonrailsChip = binding.chipRubyOnRailsTagsDialog;
+        Chip javascriptChip = binding.chipJavascriptTagsDialog;
+        Chip netChip = binding.chipDotNetTagsDialog;
+        Chip sqlserverChip = binding.chipSqlServerTagsDialog;
+        Chip swiftChip = binding.chipSwiftTagsDialog;
+        Chip python3xChip = binding.chipPython3XTagsDialog;
+        Chip objectiveChip = binding.chipObjectiveCTagsDialog;
+        Chip djangoChip = binding.chipDjangoTagsDialog;
+        Chip angularChip = binding.chipAngularTagsDialog;
+        Chip angularjsChip = binding.chipAngularjsTagsDialog;
+        Chip excelChip = binding.chipExcelTagsDialog;
+        Chip jsonChip = binding.chipJsonTagsDialog;
 
         pythonChip.setOnClickListener(this);
         javaChip.setOnClickListener(this);

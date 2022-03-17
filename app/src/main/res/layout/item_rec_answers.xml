@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_date_item_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:drawableStartCompat="@drawable/check_24" />
+
+    <TextView
+        android:id="@+id/tv_body_item_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date_item_answers" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_user_info_item_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_body_item_answers">
+
+        <ImageView
+            android:id="@+id/iv_user_avatar_item_answers"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_user_name_item_answers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/iv_user_avatar_item_answers"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_user_reputation_item_answers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/iv_user_avatar_item_answers"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name_item_answers"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_marginEnd="5dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_golden_background"/>
+
+            <TextView
+                android:textSize="11sp"
+                android:id="@+id/tv_user_golden_badge_item_answers"
+                android:layout_marginEnd="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:id="@+id/silver_badge_circle"
+                android:layout_marginEnd="5dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_silver_background"/>
+
+            <TextView
+                android:textSize="11sp"
+                android:id="@+id/tv_user_silver_badge_item_answers"
+                android:layout_marginEnd="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:id="@+id/bronze_badge_circle"
+                android:layout_marginEnd="5dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_bronze_background"/>
+
+            <TextView
+                android:textSize="11sp"
+                android:id="@+id/tv_user_bronze_badge_item_answers"
+                android:layout_marginEnd="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_comments_item_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout_user_info_item_answers"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="40dp"
+        />
+
+    <View
+        android:id="@+id/break_line_item_answers"
+        android:background="@color/myBlack"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rec_comments_item_answers" />
+
+    <View
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/break_line_item_answers"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

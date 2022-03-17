@@ -20,7 +20,6 @@ public class QuestionPagingSource extends RxPagingSource<Integer, Question> {
 
     private static final String TAG = "QuestionPagingSource";
 
-    private Integer page;
     private final StackExchangeApi api;
     private final QuestionFragmentViewModel viewModel;
 
@@ -33,20 +32,20 @@ public class QuestionPagingSource extends RxPagingSource<Integer, Question> {
     @Override
     public Single<LoadResult<Integer, Question>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
 
-        page = loadParams.getKey();
+        Integer page = loadParams.getKey();
         if (page == null)
             page = 1;
 
         Single<QuestionResponse> questionSingle;
         switch (viewModel.getQuestionsState()) {
             case QuestionsState.BOUNTIED:
-                questionSingle = api.getBountiedQuestionsWithPaging(viewModel.getTags(),page);
+                questionSingle = api.getBountiedQuestionsWithPaging(viewModel.getTags(), page);
                 break;
             case QuestionsState.UNANSWERED:
-                questionSingle = api.getUnAnsweredQuestionsWithPaging(viewModel.getTags(),page);
+                questionSingle = api.getUnAnsweredQuestionsWithPaging(viewModel.getTags(), page);
                 break;
             default: {
-                questionSingle = api.getNewestQuestionsWithPaging(viewModel.getTags(),page);
+                questionSingle = api.getNewestQuestionsWithPaging(viewModel.getTags(), page);
             }
         }
 
@@ -60,7 +59,7 @@ public class QuestionPagingSource extends RxPagingSource<Integer, Question> {
         return new LoadResult.Page<>(
                 response.getQuestions(),
                 null,
-                response.getHasMore() ? page+1 : null,
+                response.getHasMore() ? response.getPage()+1 : null,
                 LoadResult.Page.COUNT_UNDEFINED,
                 LoadResult.Page.COUNT_UNDEFINED
         );

@@ -1,8 +1,6 @@
 package com.example.retrofit_test.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
-
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +11,6 @@ import com.example.retrofit_test.Model.DB.AppDataBase;
 import com.example.retrofit_test.Model.DB.Entity.Search;
 import com.example.retrofit_test.Model.DB.SearchDAO;
 import com.example.retrofit_test.View.Custom.TagsDialog;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,11 +52,12 @@ public class SearchFragmentViewModel extends AndroidViewModel{
         search.setMinimumAnswers(getMinimumAnswers());
         search.setHasAccepted(getHasAccepted());
         search.setClosed(isClosed());
-        executor.execute(() -> {
-            dao.insert(search);
-        });
+        executor.execute(() -> dao.insert(search));
     }
 
+    public void deleteSearchHistory() {
+        executor.execute(dao::deleteAll);
+    }
 
     public void setTags(String tags) {
         searchFilter.setTags(tags);

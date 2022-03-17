@@ -1,5 +1,6 @@
 package com.example.retrofit_test.View.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -11,10 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Common.TagsChipHelper;
 import com.example.retrofit_test.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
@@ -23,11 +27,11 @@ import com.example.retrofit_test.View.Adapter.LoadStateAdapter;
 import com.example.retrofit_test.View.Adapter.RecQuestionAdapter;
 import com.example.retrofit_test.View.Custom.QuestionTagsDialog;
 import com.example.retrofit_test.View.Custom.TagsDialog;
+import com.example.retrofit_test.View.QuestionActivity;
 import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
 import com.example.retrofit_test.databinding.FragmentQuestionBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-
 import autodispose2.AutoDispose;
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider;
 import io.noties.markwon.Markwon;
@@ -48,6 +52,8 @@ public class QuestionFragment extends Fragment{
     private ChipGroup chipGroup;
     private Disposable getQuestionDisposable;
     private TagsChipHelper tagsChipHelper;
+    private Chip tagChip;
+
 
     // a boolean value to check if recyclerview needs to scroll to position 0 at refresh or its screen orientation.
     private boolean isRotation;
@@ -59,8 +65,10 @@ public class QuestionFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG, "onCreateView: ");
+
         boolean isBeingCreatedForFirstTime = savedInstanceState == null;
 
         binding = FragmentQuestionBinding.inflate(inflater,container,false);
@@ -76,12 +84,6 @@ public class QuestionFragment extends Fragment{
             isRotation = false;
         }
 
-       getQuestionDisposable = viewModel.getQuestionFlowable(requireActivity())
-               .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-               .subscribe(questionPagingData -> adapter.submitData(getLifecycle(),questionPagingData));
-
-        viewModel.setTagsDialogListener(tagsDialogListener);
-
         return view;
     }
 
@@ -89,46 +91,26 @@ public class QuestionFragment extends Fragment{
         tagsChipHelper = new TagsChipHelper(requireContext());
         viewModel = new ViewModelProvider(requireActivity()).get(QuestionFragmentViewModel.class);
         chipGroup = binding.chipGroupQuestionFragment;
-        chipGroup.setOnCheckedChangeListener(checkedChangeListener);
-        Chip tagChip = binding.chipTagsQuestionFragment;
-        tagChip.setOnClickListener(tagChipClickListener);
+
+        tagChip = binding.chipTagsQuestionFragment;
+
         refreshLayout = binding.swipeRefreshQuestionFragment;
-        refreshLayout.setOnRefreshListener(onRefreshListener);
+
         recyclerView = binding.recQuestionsQuestionFragment;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(requireContext()));
+        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(requireContext()),question -> {
+            Intent intent = new Intent(requireActivity(), QuestionActivity.class);
+            intent.putExtra("questionId",question.getQuestionId());
+            startActivity(intent);
+        });
+
         recyclerView.setAdapter(adapter.withLoadStateFooter(new LoadStateAdapter(v -> adapter.retry())));
         adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         adapter.addLoadStateListener(loadStateListener);
         noQuestionTextView = binding.tvNoQuestionsQuestionFragment;
     }
 
-    private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> adapter.refresh();
-
-    private final View.OnClickListener tagChipClickListener = (view) -> {
-        if (isAdded()) {
-            DialogFragment tagsDialog = new QuestionTagsDialog();
-            tagsDialog.show(getParentFragmentManager(),TagsDialog.TAG);
-        }
-    };
-
-    private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
-        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList("tagsList"));
-        viewModel.setTags(tagsString);
-        adapter.refresh();
-    };
-
-    private final ChipGroup.OnCheckedChangeListener checkedChangeListener = (group, checkedId) -> {
-        if (checkedId == R.id.chip_newest_question_fragment)
-            viewModel.setQuestionsState(QuestionsState.NEWEST);
-        if (checkedId == R.id.chip_bountied_question_fragment)
-            viewModel.setQuestionsState(QuestionsState.BOUNTIED);
-        if (checkedId == R.id.chip_unanswered_question_fragment)
-            viewModel.setQuestionsState(QuestionsState.UNANSWERED);
-
-        adapter.refresh();
-    };
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -172,12 +154,67 @@ public class QuestionFragment extends Fragment{
     };
 
     @Override
-    public void onDestroy() {
+    public void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart: " );
+        chipGroup.setOnCheckedChangeListener(checkedChangeListener);
+        tagChip.setOnClickListener(tagChipClickListener);
+        refreshLayout.setOnRefreshListener(onRefreshListener);
+
+        getQuestionDisposable = viewModel.getQuestionFlowable(requireActivity())
+                .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+                .subscribe(questionPagingData -> adapter.submitData(getLifecycle(),questionPagingData));
+
+        viewModel.setTagsDialogListener(tagsDialogListener);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop: " );
+        chipGroup.setOnCheckedChangeListener(null);
+        tagChip.setOnClickListener(null);
+        refreshLayout.setOnRefreshListener(null);
+
         getQuestionDisposable.dispose();
+
+    }
+
+
+    @Override
+    public void onDestroy() {
         loadStateDisposable.dispose();
         super.onDestroy();
     }
 
+
+    private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> adapter.refresh();
+
+    private final View.OnClickListener tagChipClickListener = (view) -> {
+        if (isAdded()) {
+            DialogFragment tagsDialog = new QuestionTagsDialog();
+            tagsDialog.show(getParentFragmentManager(),TagsDialog.TAG);
+        }
+    };
+
+    private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
+        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList("tagsList"));
+        viewModel.setTags(tagsString);
+        adapter.refresh();
+    };
+
+    private final ChipGroup.OnCheckedChangeListener checkedChangeListener = (group, checkedId) -> {
+        Log.e(TAG, "chip check listener: " );
+        if (checkedId == R.id.chip_newest_question_fragment)
+            viewModel.setQuestionsState(QuestionsState.NEWEST);
+        if (checkedId == R.id.chip_bountied_question_fragment)
+            viewModel.setQuestionsState(QuestionsState.BOUNTIED);
+        if (checkedId == R.id.chip_unanswered_question_fragment)
+            viewModel.setQuestionsState(QuestionsState.UNANSWERED);
+        Log.e(TAG, "chip check listener: " + adapter );
+        adapter.refresh();
+    };
 
 }
 

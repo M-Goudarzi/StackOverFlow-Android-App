@@ -209,22 +209,40 @@
             android:textAlignment="center"
             android:text="@string/search"/>
 
-        <TextView
-            android:gravity="start"
-            android:id="@+id/tv_history_search_fragment"
+        <RelativeLayout
+            android:id="@+id/linear_layout_search_history_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search_history"
             app:layout_constraintTop_toBottomOf="@+id/search_button_search_fragment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            >
+
+            <TextView
+                android:gravity="start"
+                android:id="@+id/tv_history_search_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_history"
+                />
+
+            <ImageView
+                android:id="@+id/iv_delete_history_search_fragment"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/delete_24"/>
+
+        </RelativeLayout>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rec_questions_search_fragment"
-            app:layout_constraintTop_toBottomOf="@+id/tv_history_search_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_search_history_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="10dp"

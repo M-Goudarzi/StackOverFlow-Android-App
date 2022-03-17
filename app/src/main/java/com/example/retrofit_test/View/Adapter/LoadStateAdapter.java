@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.paging.LoadState;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.retrofit_test.R;
+import com.example.retrofit_test.databinding.LoadStateLayoutBinding;
 
 public class LoadStateAdapter extends androidx.paging.LoadStateAdapter<LoadStateAdapter.ViewHolder> {
 
     private final View.OnClickListener mRetryCallback;
+    private LoadStateLayoutBinding binding;
 
     public LoadStateAdapter(View.OnClickListener mRetryCallback) {
         this.mRetryCallback = mRetryCallback;
@@ -27,11 +29,12 @@ public class LoadStateAdapter extends androidx.paging.LoadStateAdapter<LoadState
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, @NonNull LoadState loadState) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.load_state_layout,viewGroup,false);
+        binding = LoadStateLayoutBinding.inflate(LayoutInflater.from(viewGroup.getContext()),viewGroup,false);
+        View view = binding.getRoot();
         return new ViewHolder(view, mRetryCallback);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ProgressBar mProgressBar;
         private final TextView mErrorMsg;
@@ -39,9 +42,9 @@ public class LoadStateAdapter extends androidx.paging.LoadStateAdapter<LoadState
 
         public ViewHolder(@NonNull View itemView,View.OnClickListener retryCallBack) {
             super(itemView);
-            mProgressBar = itemView.findViewById(R.id.progressBar);
-            mErrorMsg = itemView.findViewById(R.id.errorMsg);
-            mRetry = itemView.findViewById(R.id.retryButton);
+            mProgressBar = binding.progressBar;
+            mErrorMsg = binding.errorMsg;
+            mRetry = binding.retryButton;
             mRetry.setOnClickListener(retryCallBack);
         }
 

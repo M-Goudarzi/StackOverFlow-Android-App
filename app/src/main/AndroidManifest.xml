@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
         <activity
+            android:name=".View.MainActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".View.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.QuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.SearchResultActivity"
             android:exported="false" />
         <activity

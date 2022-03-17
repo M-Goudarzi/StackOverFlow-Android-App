@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import com.example.retrofit_test.Common.TagsChipHelper;
 import com.example.retrofit_test.Model.DB.Entity.Search;
 import com.example.retrofit_test.View.Adapter.RecSearchHistoryAdapter;
@@ -51,7 +52,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
@@ -84,6 +85,7 @@ public class SearchFragment extends Fragment {
         tagsChipHelper = new TagsChipHelper(requireContext());
         selectedChips = new ArrayList<>();
         viewModel = new ViewModelProvider(requireActivity()).get(SearchFragmentViewModel.class);
+        ImageView deleteSearchButton = binding.ivDeleteHistorySearchFragment;
         searchEdittext = binding.searchEdittextSearchFragment;
         tagsChipGroup = binding.tagsChipGroupSearchFragment;
         Chip addTagsChip = binding.addTagsChipSearchFragment;
@@ -102,8 +104,12 @@ public class SearchFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<Search> searchList = new ArrayList<>();
-        adapter = new RecSearchHistoryAdapter(searchList);
+        adapter = new RecSearchHistoryAdapter(searchList,getActivity());
         recyclerView.setAdapter(adapter);
+        deleteSearchButton.setOnClickListener(v -> {
+            viewModel.deleteSearchHistory();
+            adapter.notifyDataSetChanged();
+        });
     }
 
     private final View.OnClickListener tagChipClickListener = (view) -> {

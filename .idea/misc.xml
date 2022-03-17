@@ -29,20 +29,33 @@
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_stack.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_stack_round.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/xml/chip.xml" value="0.2625" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/circle_bronz_background.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/circle_silver_background.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/custom_edittext.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/custom_layout.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/account_circle_24.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/arrow_back_24.xml" value="0.22573839662447256" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/circle_golden_background.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/custom_edittext.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/custom_layout.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/search_24.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/search_24_focused.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable/search_icon.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/activity_main.xml" value="0.2153846153846154" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/activity_question.xml" value="0.176" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/activity_search_result.xml" value="0.15534420289855072" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/activity_settings.xml" value="0.1" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/fragment_ask_question.xml" value="0.161231884057971" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/fragment_profile.xml" value="0.161231884057971" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/fragment_question.xml" value="0.20244565217391305" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/fragment_search.xml" value="0.176" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_answers.xml" value="0.18795289855072464" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_comments.xml" value="0.2153846153846154" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_question.xml" value="0.10526315789473684" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_search.xml" value="0.176" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_search_history.xml" value="0.14130434782608695" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_tags.xml" value="0.18795289855072464" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/item_rec_tags_question_activity.xml" value="0.18795289855072464" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/load_state_layout.xml" value="0.20244565217391305" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/layout/tags_dialog_layout.xml" value="0.2153846153846154" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2153846153846154" />
@@ -50,7 +63,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

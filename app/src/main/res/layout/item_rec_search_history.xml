@@ -9,6 +9,7 @@
     android:elevation="100dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_item_search_history"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

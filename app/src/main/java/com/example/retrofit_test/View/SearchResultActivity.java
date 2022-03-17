@@ -4,31 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.CombinedLoadStates;
 import androidx.paging.LoadState;
-import androidx.paging.PagingData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.example.retrofit_test.Common.QuestionSearchFilter;
 import com.example.retrofit_test.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
-import com.example.retrofit_test.Model.Networking.ModelObject.Question;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Adapter.LoadStateAdapter;
 import com.example.retrofit_test.View.Adapter.RecQuestionAdapter;
 import com.example.retrofit_test.ViewModel.SearchResultActivityViewModel;
 import com.example.retrofit_test.databinding.ActivitySearchResultBinding;
-
 import autodispose2.AutoDispose;
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider;
 import io.noties.markwon.Markwon;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -59,11 +53,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         viewModel.getQuestionFlowable(searchQuery,searchFilter)
                 .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(questionPagingData -> {
-                    adapter.submitData(getLifecycle(),questionPagingData);
-                });
-
-
+                .subscribe(questionPagingData -> adapter.submitData(getLifecycle(),questionPagingData));
     }
 
     private void init() {
@@ -87,7 +77,11 @@ public class SearchResultActivity extends AppCompatActivity {
         searchFilter.setHasAccepted(searchIsAcceptedBool);
         searchFilter.setMinimumAnswers(searchNumberOfAnswers);
         RecyclerView recyclerView = binding.recQuestionsSearchResult;
-        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(this));
+        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(this), question -> {
+            Intent intent = new Intent(this, QuestionActivity.class);
+            intent.putExtra("questionId",question.getQuestionId());
+            startActivity(intent);
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter.withLoadStateFooter(new LoadStateAdapter(view -> adapter.retry())));
@@ -132,4 +126,9 @@ public class SearchResultActivity extends AppCompatActivity {
         return null;
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loadStateDisposable.dispose();
+    }
 }
