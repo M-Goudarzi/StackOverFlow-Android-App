@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.QuestionActivity">
+    tools:context=".View.Activity.QuestionActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_question_activity"

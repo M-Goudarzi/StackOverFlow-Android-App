@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.retrofit_test.Model.DB.Entity.DiffUtil.SearchComparator;
 import com.example.retrofit_test.Model.DB.Entity.Search;
-import com.example.retrofit_test.View.SearchResultActivity;
+import com.example.retrofit_test.View.Activity.SearchResultActivity;
 import com.example.retrofit_test.databinding.ItemRecSearchHistoryBinding;
 import java.util.ArrayList;
 import java.util.Arrays;

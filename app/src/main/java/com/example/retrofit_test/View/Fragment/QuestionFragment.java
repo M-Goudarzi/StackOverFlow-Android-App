@@ -17,17 +17,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.retrofit_test.Common.QuestionsState;
 import com.example.retrofit_test.Common.TagsChipHelper;
 import com.example.retrofit_test.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Adapter.LoadStateAdapter;
-import com.example.retrofit_test.View.Adapter.RecQuestionAdapter;
+import com.example.retrofit_test.View.Adapter.RecQuestionPagingAdapter;
 import com.example.retrofit_test.View.Custom.QuestionTagsDialog;
 import com.example.retrofit_test.View.Custom.TagsDialog;
-import com.example.retrofit_test.View.QuestionActivity;
+import com.example.retrofit_test.View.Activity.QuestionActivity;
 import com.example.retrofit_test.ViewModel.QuestionFragmentViewModel;
 import com.example.retrofit_test.databinding.FragmentQuestionBinding;
 import com.google.android.material.chip.Chip;
@@ -44,7 +43,7 @@ public class QuestionFragment extends Fragment{
 
     private static final String TAG = "HomeFragment";
 
-    private RecQuestionAdapter adapter;
+    private RecQuestionPagingAdapter adapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private QuestionFragmentViewModel viewModel;
@@ -99,7 +98,7 @@ public class QuestionFragment extends Fragment{
         recyclerView = binding.recQuestionsQuestionFragment;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(requireContext()),question -> {
+        adapter = new RecQuestionPagingAdapter(new QuestionComparator(), Markwon.create(requireContext()), question -> {
             Intent intent = new Intent(requireActivity(), QuestionActivity.class);
             intent.putExtra("questionId",question.getQuestionId());
             startActivity(intent);

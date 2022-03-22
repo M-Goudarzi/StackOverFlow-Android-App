@@ -8,14 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.retrofit_test.R;
 import com.example.retrofit_test.databinding.ItemRecTagsBinding;
 
 import java.util.ArrayList;
 
 class RecQuestionTagAdapter extends RecyclerView.Adapter<RecQuestionTagAdapter.MyHolder> {
 
-    private ArrayList<String> tags;
+    private final ArrayList<String> tags;
     private ItemRecTagsBinding binding;
 
     public RecQuestionTagAdapter(ArrayList<String> tags) {

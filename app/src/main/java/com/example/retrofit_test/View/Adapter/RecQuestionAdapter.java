@@ -4,8 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,17 +16,17 @@ import com.example.retrofit_test.databinding.ItemRecQuestionBinding;
 
 import java.util.ArrayList;
 
-import androidx.paging.PagingDataAdapter;
 import io.noties.markwon.Markwon;
 
-public class RecQuestionAdapter extends PagingDataAdapter<Question, RecQuestionAdapter.MyViewHolder> {
+public class RecQuestionAdapter extends RecyclerView.Adapter<RecQuestionAdapter.MyViewHolder> {
 
+    private final ArrayList<Question> questions;
     private final Markwon markwon;
-    private ItemRecQuestionBinding binding;
     private final QuestionClickListener questionClicklistener;
+    private ItemRecQuestionBinding binding;
 
-    public RecQuestionAdapter(@NonNull DiffUtil.ItemCallback<Question> diffCallback, Markwon markwon, QuestionClickListener questionClicklistener) {
-        super(diffCallback);
+    public RecQuestionAdapter(ArrayList<Question> questions, Markwon markwon, QuestionClickListener questionClicklistener) {
+        this.questions = questions;
         this.markwon = markwon;
         this.questionClicklistener = questionClicklistener;
     }
@@ -41,10 +41,13 @@ public class RecQuestionAdapter extends PagingDataAdapter<Question, RecQuestionA
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            holder.bind(getItem(position),questionClicklistener);
+        holder.bind(questions.get(position),questionClicklistener);
     }
 
-
+    @Override
+    public int getItemCount() {
+        return questions.size();
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -69,23 +72,24 @@ public class RecQuestionAdapter extends PagingDataAdapter<Question, RecQuestionA
             recyclerView.setAdapter(adapter);
         }
 
+
         private void bind(Question question, QuestionClickListener questionClicklistener) {
-                if (question.getBountyAmount() != null) {
-                    String str =  "**+" + question.getBountyAmount() + "** " + question.getTitle();
-                    markwon.setMarkdown(tvQuestionTitle, str);
-                }
-                else {
-                    markwon.setMarkdown(tvQuestionTitle,question.getTitle());
-                }
+            if (question.getBountyAmount() != null) {
+                String str =  "**+" + question.getBountyAmount() + "** " + question.getTitle();
+                markwon.setMarkdown(tvQuestionTitle, str);
+            }
+            else {
+                markwon.setMarkdown(tvQuestionTitle,question.getTitle());
+            }
 
 
-                tvQuestionVotes.setText(itemView.getContext().getString(R.string.QuestionVotes,question.getUpVoteCount()));
-                tvQuestionAnswers.setText(itemView.getContext().getString(R.string.QuestionAnswers,question.getAnswerCount()));
-                tvQuestionViews.setText(itemView.getContext().getString(R.string.QuestionViews,question.getViewCount()));
+            tvQuestionVotes.setText(itemView.getContext().getString(R.string.QuestionVotes,question.getUpVoteCount()));
+            tvQuestionAnswers.setText(itemView.getContext().getString(R.string.QuestionAnswers,question.getAnswerCount()));
+            tvQuestionViews.setText(itemView.getContext().getString(R.string.QuestionViews,question.getViewCount()));
 
-                tags.clear();
-                tags.addAll(question.getTags());
-                adapter.notifyDataSetChanged();
+            tags.clear();
+            tags.addAll(question.getTags());
+            adapter.notifyDataSetChanged();
 
             final View.OnClickListener onClickListener = view -> questionClicklistener.onClick(question);
 

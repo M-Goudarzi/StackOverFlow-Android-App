@@ -22,7 +22,7 @@ import com.example.retrofit_test.Model.DB.Entity.Search;
 import com.example.retrofit_test.View.Adapter.RecSearchHistoryAdapter;
 import com.example.retrofit_test.View.Custom.SearchTagsDialog;
 import com.example.retrofit_test.View.Custom.TagsDialog;
-import com.example.retrofit_test.View.SearchResultActivity;
+import com.example.retrofit_test.View.Activity.SearchResultActivity;
 import com.example.retrofit_test.ViewModel.SearchFragmentViewModel;
 import com.example.retrofit_test.databinding.FragmentSearchBinding;
 import com.google.android.material.chip.Chip;

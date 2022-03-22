@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.retrofit_test.View.SearchResultActivity;
+import com.example.retrofit_test.View.Activity.SearchResultActivity;
 import com.example.retrofit_test.databinding.ItemRecTagsQuestionActivityBinding;
 import com.google.android.material.chip.Chip;
 

@@ -1,4 +1,4 @@
-package com.example.retrofit_test.View;
+package com.example.retrofit_test.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

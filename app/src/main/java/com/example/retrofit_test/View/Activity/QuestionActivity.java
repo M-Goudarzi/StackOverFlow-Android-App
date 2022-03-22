@@ -1,18 +1,17 @@
-package com.example.retrofit_test.View;
+package com.example.retrofit_test.View.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.bumptech.glide.Glide;
+import com.example.retrofit_test.Common.DateHelper;
+import com.example.retrofit_test.Common.MarkdownHelper;
 import com.example.retrofit_test.Model.Networking.ModelObject.Answer;
 import com.example.retrofit_test.Model.Networking.ModelObject.Comment;
 import com.example.retrofit_test.Model.Networking.ModelObject.Question;
@@ -23,26 +22,19 @@ import com.example.retrofit_test.View.Adapter.RecCommentAdapter;
 import com.example.retrofit_test.View.Adapter.RecTagQuestionActivityAdapter;
 import com.example.retrofit_test.ViewModel.QuestionActivityViewModel;
 import com.example.retrofit_test.databinding.ActivityQuestionBinding;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Set;
-
 import io.noties.markwon.Markwon;
 import io.noties.markwon.html.HtmlPlugin;
 import io.noties.markwon.image.glide.GlideImagesPlugin;
 
 public class QuestionActivity extends AppCompatActivity {
 
-    private Map<String, String> specialChars;
     private static final String TAG = "QuestionActivity";
     private Markwon markwon;
     private ActivityQuestionBinding binding;
     private QuestionActivityViewModel viewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Question question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +58,6 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void init() {
-        fillUpTheSpecialCharsHashMap();
         markwon = Markwon.builder(this)
                 .usePlugin(HtmlPlugin.create())
                 .usePlugin(GlideImagesPlugin.create(this))
@@ -75,6 +66,8 @@ public class QuestionActivity extends AppCompatActivity {
         swipeRefreshLayout.setEnabled(true);
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
+        binding.ivUserAvatarQuestionActivity.setOnClickListener(userProfileClickListener);
+        binding.tvUserNameQuestionActivity.setOnClickListener(userProfileClickListener);
         binding.arrowBackQuestionActivity.setOnClickListener(v -> {
             finish();
             overridePendingTransition(0, 0);
@@ -84,9 +77,9 @@ public class QuestionActivity extends AppCompatActivity {
     private void updateUi(Question question) {
         binding.tvToolbarQuestionActivity.setText(question.getUpVoteCount() + " votes");
         markwon.setMarkdown(binding.tvTitleQuestionActivity, question.getTitle());
-        binding.tvAskDateQuestionActivity.setText("Asked : " + getCreationTime(question.getCreationDate()));
+        binding.tvAskDateQuestionActivity.setText("Asked : " + DateHelper.getCreationDate(question.getCreationDate()));
         binding.tvViewsCountQuestionActivity.setText("Viewed " + question.getViewCount() + " times");
-        markwon.setMarkdown(binding.tvBodyQuestionActivity, handleSpecialChars(question.getBodyMarkdown()));
+        markwon.setMarkdown(binding.tvBodyQuestionActivity,new MarkdownHelper().handleSpecialChars(question.getBodyMarkdown()));
         binding.recTagsQuestionActivity.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         binding.recTagsQuestionActivity.setAdapter(new RecTagQuestionActivityAdapter((ArrayList<String>) question.getTags()));
         binding.tvUserNameQuestionActivity.setText(question.getOwner().getDisplayName());
@@ -116,58 +109,14 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
-    private String getCreationTime(Integer creationDate) {
-        LocalDateTime localDateTime = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
-        LocalDateTime localDateTime1 = localDateTime.plusSeconds(creationDate);
-        LocalDateTime now = LocalDateTime.now();
-        if (now.getYear() == localDateTime1.getYear()) {
-            if (now.getMonth() == localDateTime1.getMonth()) {
-                if (now.getDayOfMonth() == localDateTime1.getDayOfMonth()) {
-                    return "Today";
-                } else {
-                    return (now.getDayOfMonth() - localDateTime1.getDayOfMonth()) + " Days ago";
-                }
-            } else {
-                return (now.getMonth().getValue() - localDateTime1.getMonth().getValue()) + " Months ago";
-            }
-        } else {
-            return (now.getYear() - localDateTime1.getYear()) + " Years ago";
-        }
-    }
-
-    private void fillUpTheSpecialCharsHashMap() {
-        specialChars = new HashMap<>();
-        specialChars.put("&lt;", "<");
-        specialChars.put("&gt;", ">");
-        specialChars.put("&quot;", "\"");
-        specialChars.put("&nbsp;", " ");
-        specialChars.put("&amp;", "&");
-        specialChars.put("&apos;", "'");
-        specialChars.put("&#39;", "'");
-        specialChars.put("&#40;", "(");
-        specialChars.put("&#41;", ")");
-        specialChars.put("&#215;", "x");
-    }
-
-    private String handleSpecialChars(String text) {
-        Set set = specialChars.entrySet();//Converting to Set so that we can traverse
-        for (Object o : set) {
-            //Converting to Map.Entry so that we can get key and value separately
-            Map.Entry entry = (Map.Entry) o;
-            text = text.replace(entry.getKey().toString(), entry.getValue().toString());
-        }
-        return text;
-    }
-
-
     private String getQuestionId() {
         Intent intent = getIntent();
         return intent.getStringExtra("questionId");
     }
 
     private final androidx.lifecycle.Observer<QuestionResponse> observer = questionResponse -> {
-        Question question = questionResponse.getQuestions().get(0);
         runOnUiThread(() -> {
+            question = questionResponse.getQuestions().get(0);
             updateUi(question);
             swipeRefreshLayout.setRefreshing(false);
         });
@@ -176,6 +125,14 @@ public class QuestionActivity extends AppCompatActivity {
     private final SwipeRefreshLayout.OnRefreshListener refreshListener = () -> {
         viewModel.retryQuestionFetch(getLifecycle())
                 .observe(this,observer);
+    };
+
+    private final View.OnClickListener userProfileClickListener = v -> {
+        if (question != null) {
+            Intent intent = new Intent(this,UserProfileActivity.class);
+            intent.putExtra("userId",question.getOwner().getUserId());
+            startActivity(intent);
+        }
     };
 
 }

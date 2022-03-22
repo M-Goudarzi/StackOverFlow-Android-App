@@ -1,4 +1,4 @@
-package com.example.retrofit_test.View;
+package com.example.retrofit_test.View.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

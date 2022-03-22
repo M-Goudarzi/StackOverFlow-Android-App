@@ -1,6 +1,7 @@
 package com.example.retrofit_test.Model.Networking;
 
 import com.example.retrofit_test.Model.Networking.ModelObject.QuestionResponse;
+import com.example.retrofit_test.Model.Networking.ModelObject.UserResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
@@ -38,5 +39,11 @@ public interface StackExchangeApi {
 
     @GET("questions/{id}?order=desc&sort=activity&site=stackoverflow&filter=!)OS2treGqbOpL7cr-eYBTAD2yY5iompxkGw(P6g1NqtXqOKXr0Lvg81GKU-YuPAHfUoygj")
     Single<QuestionResponse> getQuestionById(@Path("id") String id);
+
+    @GET("users/{id}?order=desc&sort=reputation&site=stackoverflow&filter=!Ln3laW6gn3E)ssLpSyl9Ir")
+    Observable<UserResponse> getUserById(@Path("id") String id);
+
+    @GET("users/{id}/questions?order=desc&sort=activity&site=stackoverflow&filter=!4)Lbteely(YAdQsz8")
+    Observable<QuestionResponse> getQuestionsOfUserById(@Path("id") String id);
 
 }

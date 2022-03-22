@@ -1,4 +1,4 @@
-package com.example.retrofit_test.View;
+package com.example.retrofit_test.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,12 +11,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.example.retrofit_test.Common.QuestionSearchFilter;
 import com.example.retrofit_test.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
 import com.example.retrofit_test.R;
 import com.example.retrofit_test.View.Adapter.LoadStateAdapter;
-import com.example.retrofit_test.View.Adapter.RecQuestionAdapter;
+import com.example.retrofit_test.View.Adapter.RecQuestionPagingAdapter;
 import com.example.retrofit_test.ViewModel.SearchResultActivityViewModel;
 import com.example.retrofit_test.databinding.ActivitySearchResultBinding;
 import autodispose2.AutoDispose;
@@ -32,7 +32,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private ActivitySearchResultBinding binding;
 
     private Intent intent;
-    private RecQuestionAdapter adapter;
+    private RecQuestionPagingAdapter adapter;
     private SearchResultActivityViewModel viewModel;
     private String searchQuery;
     private QuestionSearchFilter searchFilter;
@@ -80,7 +80,7 @@ public class SearchResultActivity extends AppCompatActivity {
         searchFilter.setHasAccepted(searchIsAcceptedBool);
         searchFilter.setMinimumAnswers(searchNumberOfAnswers);
         RecyclerView recyclerView = binding.recQuestionsSearchResult;
-        adapter = new RecQuestionAdapter(new QuestionComparator(), Markwon.create(this), question -> {
+        adapter = new RecQuestionPagingAdapter(new QuestionComparator(), Markwon.create(this), question -> {
             Intent intent = new Intent(this, QuestionActivity.class);
             intent.putExtra("questionId",question.getQuestionId());
             startActivity(intent);

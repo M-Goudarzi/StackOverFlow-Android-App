@@ -1,5 +1,6 @@
 package com.example.retrofit_test.View.Adapter;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.retrofit_test.Common.DateHelper;
+import com.example.retrofit_test.Common.MarkdownHelper;
 import com.example.retrofit_test.Model.Networking.ModelObject.Answer;
 import com.example.retrofit_test.Model.Networking.ModelObject.Comment;
+import com.example.retrofit_test.View.Activity.UserProfileActivity;
 import com.example.retrofit_test.databinding.ItemRecAnswersBinding;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import io.noties.markwon.Markwon;
 
@@ -28,13 +28,11 @@ public class RecAnswerAdapter extends RecyclerView.Adapter<RecAnswerAdapter.MyHo
 
     private final ArrayList<Answer> answers;
     private ItemRecAnswersBinding binding;
-    private Map<String,String> specialChars;
     private final Markwon markwon;
     private final Drawable defaultUserAvatar;
 
     public RecAnswerAdapter(ArrayList<Answer> answers, Markwon markwon, Drawable defaultUserAvatar) {
         this.answers = answers;
-        fillUpTheSpecialCharsHashMap();
         this.markwon = markwon;
         this.defaultUserAvatar = defaultUserAvatar;
     }
@@ -49,10 +47,10 @@ public class RecAnswerAdapter extends RecyclerView.Adapter<RecAnswerAdapter.MyHo
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.date.setText(String.format("Answered : %s", getCreationTime(answers.get(position).getCreationDate())));
+        holder.date.setText(String.format("Answered : %s", DateHelper.getCreationDate(answers.get(position).getCreationDate())));
         if (!answers.get(position).getIsAccepted())
             holder.date.setCompoundDrawables(null,null,null,null);
-        markwon.setMarkdown(holder.body,handleSpecialChars(answers.get(position).getBodyMarkdown()));
+        markwon.setMarkdown(holder.body,new MarkdownHelper().handleSpecialChars(answers.get(position).getBodyMarkdown()));
         Glide.with(binding.getRoot())
                 .load(answers.get(position).getOwner().getProfileImage())
                 .placeholder(defaultUserAvatar)
@@ -66,6 +64,13 @@ public class RecAnswerAdapter extends RecyclerView.Adapter<RecAnswerAdapter.MyHo
             holder.recComments.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext(),RecyclerView.VERTICAL,false));
             holder.recComments.setAdapter(new RecCommentAdapter((ArrayList<Comment>) answers.get(position).getComments(),markwon));
         }
+        final View.OnClickListener userProfileClickListener = v -> {
+            Intent intent = new Intent(binding.getRoot().getContext(), UserProfileActivity.class);
+            intent.putExtra("userId",answers.get(position).getOwner().getUserId());
+            binding.getRoot().getContext().startActivity(intent);
+        };
+        holder.imageAvatar.setOnClickListener(userProfileClickListener);
+        holder.userName.setOnClickListener(userProfileClickListener);
     }
 
     @Override
@@ -90,52 +95,6 @@ public class RecAnswerAdapter extends RecyclerView.Adapter<RecAnswerAdapter.MyHo
             imageAvatar = binding.ivUserAvatarItemAnswers;
             recComments = binding.recCommentsItemAnswers;
         }
-    }
-
-    private String getCreationTime(Integer creationDate) {
-        LocalDateTime localDateTime = LocalDateTime.of(1970,1,1,0,0,0);
-        LocalDateTime localDateTime1 = localDateTime.plusSeconds(creationDate);
-        LocalDateTime now = LocalDateTime.now();
-        if (now.getYear() == localDateTime1.getYear()) {
-            if (now.getMonth() == localDateTime1.getMonth()) {
-                if (now.getDayOfMonth() == localDateTime1.getDayOfMonth()) {
-                    return "Today";
-                }
-                else {
-                    return (now.getDayOfMonth() - localDateTime1.getDayOfMonth()) + " Days ago";
-                }
-            }
-            else {
-                return (now.getMonth().getValue() - localDateTime1.getMonth().getValue()) + " Months ago";
-            }
-        }
-        else {
-            return (now.getYear() - localDateTime1.getYear()) + " Years ago";
-        }
-    }
-
-    private void fillUpTheSpecialCharsHashMap() {
-        specialChars = new HashMap<>();
-        specialChars.put("&lt;","<");
-        specialChars.put("&gt;",">");
-        specialChars.put("&quot;","\"");
-        specialChars.put("&nbsp;"," ");
-        specialChars.put("&amp;","&");
-        specialChars.put("&apos;","'");
-        specialChars.put("&#39;","'");
-        specialChars.put("&#40;","(");
-        specialChars.put("&#41;",")");
-        specialChars.put("&#215;","x");
-    }
-
-    private String handleSpecialChars(String text) {
-        Set set=specialChars.entrySet();//Converting to Set so that we can traverse
-        for (Object o : set) {
-            //Converting to Map.Entry so that we can get key and value separately
-            Map.Entry entry = (Map.Entry) o;
-            text = text.replace(entry.getKey().toString(),entry.getValue().toString());
-        }
-        return text;
     }
 
 }

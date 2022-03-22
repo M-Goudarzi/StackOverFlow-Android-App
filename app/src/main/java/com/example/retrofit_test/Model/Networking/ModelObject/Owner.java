@@ -13,6 +13,56 @@ public class Owner {
     private String displayName;
     @SerializedName("badge_counts")
     private BadgeCounts badgeCounts;
+    @SerializedName("creation_date")
+    private Integer creationDate;
+    @SerializedName("link")
+    private String link;
+    @SerializedName("about_me")
+    private String aboutMe;
+    @SerializedName("location")
+    private String location;
+    @SerializedName("website_url")
+    private String webSiteUrl;
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getWebSiteUrl() {
+        return webSiteUrl;
+    }
+
+    public void setWebSiteUrl(String webSiteUrl) {
+        this.webSiteUrl = webSiteUrl;
+    }
+
+    public Integer getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Integer creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public BadgeCounts getBadgeCounts() {
         return badgeCounts;
