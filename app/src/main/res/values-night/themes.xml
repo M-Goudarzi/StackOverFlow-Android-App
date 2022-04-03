@@ -4,7 +4,7 @@
         <item name="android:statusBarColor">@color/myBlack</item>
         <item name="android:navigationBarColor">@color/myBlack</item>
 
-        <item name="backgroundColor">@color/white</item>
+        <item name="backgroundColor">@color/myBlack</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:textColor">@color/myBlack</item>

@@ -145,6 +145,34 @@
                     android:minHeight="48dp"
                     android:src="@drawable/arrow_back_24" />
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="6dp"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/share_link_user_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
+                        android:contentDescription="@string/share_link"
+                        android:src="@drawable/share_24" />
+
+                    <ImageButton
+                        android:id="@+id/open_in_browser_user_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
+                        android:contentDescription="@string/open_in_browser"
+                        android:src="@drawable/open_in_browser_24" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

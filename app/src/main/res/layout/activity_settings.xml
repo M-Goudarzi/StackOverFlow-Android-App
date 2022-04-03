@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,5 +8,185 @@
     tools:context=".View.Activity.SettingsActivity">
 
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_settings_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_settings_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll">
+
+            <TextView
+                android:id="@+id/tv_toolbar_settings_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/settings"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/arrow_back_settings_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginEnd="6dp"
+                android:contentDescription="@string/settings"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/arrow_back_24" />
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <TextView
+        android:layout_margin="20dp"
+        android:id="@+id/tv_app_label_settings_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBrown"
+        android:padding="10dp"
+        />
+
+    <TextView
+
+        android:drawablePadding="20dp"
+        android:id="@+id/tv_theme_settings_activity"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_label_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBlack"
+        android:padding="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:enabled="true"
+        app:drawableStartCompat="@drawable/colors_24"
+        app:drawableTint="@color/myBlack" />
+
+    <TextView
+        android:drawablePadding="20dp"
+        android:id="@+id/tv_version_settings_activity"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/version"
+        app:layout_constraintTop_toBottomOf="@+id/tv_theme_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBlack"
+        android:padding="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:enabled="true"
+        app:drawableStartCompat="@drawable/ic_baseline_info_24"
+        app:drawableTint="@color/myBlack" />
+
+    <TextView
+        android:layout_margin="20dp"
+        android:id="@+id/tv_About_label_settings_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/about"
+        app:layout_constraintTop_toBottomOf="@+id/tv_version_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBrown"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:drawablePadding="20dp"
+        android:id="@+id/tv_Source_settings_activity"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/source"
+        app:layout_constraintTop_toBottomOf="@+id/tv_About_label_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBlack"
+        android:padding="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:enabled="true"
+        app:drawableStartCompat="@drawable/github" />
+
+    <TextView
+        android:drawablePadding="20dp"
+        android:id="@+id/tv_open_source_settings_activity"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_source_libraries"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Source_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBlack"
+        android:padding="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:enabled="true"
+        app:drawableStartCompat="@drawable/open_source"
+        app:drawableTint="@color/myBlack" />
+
+    <TextView
+        android:drawablePadding="20dp"
+        android:id="@+id/tv_api_settings_activity"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/powered_by_the_stack_exchange_api_v2_2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_open_source_settings_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColor="@color/myBlack"
+        android:padding="10dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:enabled="true"
+        app:drawableStartCompat="@drawable/cloud_24"
+        app:drawableTint="@color/myBlack" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

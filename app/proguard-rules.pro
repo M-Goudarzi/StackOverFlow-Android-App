@@ -22,7 +22,7 @@
 
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.example.retrofit_test.Model.Networking.ModelObject.** { *; }
+-keep class com.example.StackOverFlow_App.Model.Networking.ModelObject.** { *; }
 
 -keep class *.R
 -keep class **.R$* {
