@@ -31,6 +31,10 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private void init() {
+        binding.tvSourceSettingsActivity.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M-Goudarzi/StackOverFlow-Android-App"));
+            startActivity(intent);
+        });
         binding.tvThemeSettingsActivity.setOnClickListener(v -> {
             ThemeDialog themeDialog = new ThemeDialog();
             themeDialog.show(getSupportFragmentManager(),"themeDialog");

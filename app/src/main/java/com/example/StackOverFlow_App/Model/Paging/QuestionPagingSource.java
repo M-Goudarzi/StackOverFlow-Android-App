@@ -10,7 +10,7 @@ import com.example.StackOverFlow_App.Model.Networking.ModelObject.Question;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.QuestionResponse;
 import com.example.StackOverFlow_App.Model.Networking.StackExchangeApi;
 import com.example.StackOverFlow_App.ViewModel.QuestionFragmentViewModel;
-import com.example.StackOverFlow_App.Common.QuestionsState;
+import com.example.StackOverFlow_App.Other.QuestionsState;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 

@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.StackOverFlow_App.Common.TagsChipHelper;
+import com.example.StackOverFlow_App.Other.TagsChipHelper;
 import com.example.StackOverFlow_App.Model.DB.Entity.Search;
 import com.example.StackOverFlow_App.View.Adapter.RecSearchHistoryAdapter;
 import com.example.StackOverFlow_App.View.Custom.SearchTagsDialog;

@@ -1,4 +1,4 @@
-package com.example.StackOverFlow_App.Common;
+package com.example.StackOverFlow_App.Other;
 
 public class QuestionSearchFilter {
 

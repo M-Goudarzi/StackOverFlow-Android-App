@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.StackOverFlow_App.Common.QuestionsState;
-import com.example.StackOverFlow_App.Common.TagsChipHelper;
+import com.example.StackOverFlow_App.Other.QuestionsState;
+import com.example.StackOverFlow_App.Other.TagsChipHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
 import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.View.Adapter.LoadStateAdapter;

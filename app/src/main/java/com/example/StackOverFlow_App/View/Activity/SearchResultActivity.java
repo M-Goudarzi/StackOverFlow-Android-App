@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.StackOverFlow_App.Common.QuestionSearchFilter;
+import com.example.StackOverFlow_App.Other.QuestionSearchFilter;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
 import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.View.Adapter.LoadStateAdapter;

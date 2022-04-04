@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import com.example.StackOverFlow_App.Common.TagsChipHelper;
+import com.example.StackOverFlow_App.Other.TagsChipHelper;
 import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.databinding.TagsDialogLayoutBinding;
 import com.google.android.material.chip.Chip;

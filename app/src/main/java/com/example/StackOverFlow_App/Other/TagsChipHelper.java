@@ -1,4 +1,4 @@
-package com.example.StackOverFlow_App.Common;
+package com.example.StackOverFlow_App.Other;
 
 // a class to add,remove and control chips inside chip group
 

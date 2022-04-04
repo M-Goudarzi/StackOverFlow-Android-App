@@ -1,4 +1,4 @@
-package com.example.StackOverFlow_App.Common;
+package com.example.StackOverFlow_App.Other;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

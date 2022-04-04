@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.StackOverFlow_App.Common.QuestionClickListener;
+import com.example.StackOverFlow_App.Other.QuestionClickListener;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Question;
 import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.databinding.ItemRecQuestionBinding;

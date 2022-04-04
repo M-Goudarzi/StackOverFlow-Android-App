@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.example.StackOverFlow_App.Common.DateHelper;
+import com.example.StackOverFlow_App.Other.DateHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Owner;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Question;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.UserWithQuestions;

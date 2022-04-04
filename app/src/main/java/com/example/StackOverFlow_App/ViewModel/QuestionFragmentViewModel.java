@@ -9,7 +9,7 @@ import androidx.paging.Pager;
 import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
 import androidx.paging.rxjava3.PagingRx;
-import com.example.StackOverFlow_App.Common.QuestionsState;
+import com.example.StackOverFlow_App.Other.QuestionsState;
 import com.example.StackOverFlow_App.Model.Networking.BaseRetrofit;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Question;
 import com.example.StackOverFlow_App.Model.Networking.StackExchangeApi;

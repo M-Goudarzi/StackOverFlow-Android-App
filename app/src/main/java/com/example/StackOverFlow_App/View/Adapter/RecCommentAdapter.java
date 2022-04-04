@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.StackOverFlow_App.Common.MarkdownHelper;
+import com.example.StackOverFlow_App.Other.MarkdownHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Comment;
 import com.example.StackOverFlow_App.databinding.ItemRecCommentsBinding;
 
