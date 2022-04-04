@@ -48,10 +48,12 @@ public class UserProfileActivity extends AppCompatActivity {
         int userId = getUserId();
 
         init();
+        binding.appBarLayout.setExpanded(false);
 
         viewModel.getUser(String.valueOf(userId), getLifecycle(), e -> {
-
             swipeRefreshLayout.setRefreshing(false);
+            binding.tvErrorMessageUserProfile.setText(e.getMessage());
+            binding.tvErrorMessageUserProfile.setVisibility(View.VISIBLE);
         }).observe(this,observer);
 
 
@@ -97,6 +99,8 @@ public class UserProfileActivity extends AppCompatActivity {
             owner = userWithQuestions.getUserResponse().getOwners().get(0);
             questions.addAll(userWithQuestions.getQuestionResponse().getQuestions());
             updateUi(owner,questions);
+            binding.tvErrorMessageUserProfile.setVisibility(View.GONE);
+            binding.appBarLayout.setExpanded(true,true);
             swipeRefreshLayout.setRefreshing(false);
         });
     };

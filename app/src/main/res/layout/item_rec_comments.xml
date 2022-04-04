@@ -10,19 +10,12 @@
     <TextView
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_user_name_item_comments"/>
-
-    <TextView
-        android:id="@+id/tv_body_item_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintStart_toEndOf="@+id/tv_user_name_item_comments"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAlignment="textStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_comment_item_comments"/>
+
 
     <View
         android:id="@+id/break_line_item_comment"
@@ -32,6 +25,6 @@
         android:layout_height="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_body_item_comment" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment_item_comments" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

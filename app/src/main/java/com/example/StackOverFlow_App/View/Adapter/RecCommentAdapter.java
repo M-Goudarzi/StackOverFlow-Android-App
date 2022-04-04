@@ -47,17 +47,20 @@ public class RecCommentAdapter extends RecyclerView.Adapter<RecCommentAdapter.my
 
     public class myHolder extends RecyclerView.ViewHolder {
 
-        private final TextView userName, body;
+        private final TextView comment;
 
         public myHolder(@NonNull View itemView) {
             super(itemView);
-            userName = binding.tvUserNameItemComments;
-            body = binding.tvBodyItemComment;
+            comment = binding.tvCommentItemComments;
         }
 
         void bind(int position) {
-            userName.setText("@" + comments.get(position).owner.getDisplayName() + " : ");
-            markwon.setMarkdown(body, new MarkdownHelper().handleSpecialChars(comments.get(position).getBodyMarkdown()));
+            markwon.setMarkdown(
+                    comment,
+                    new MarkdownHelper().handleSpecialChars(
+                            "@" + comments.get(position).owner.getDisplayName() + " : "
+                                    + comments.get(position).getBodyMarkdown())
+            );
         }
 
     }
