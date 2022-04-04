@@ -1,5 +1,6 @@
 package com.example.StackOverFlow_App.Model.Networking;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseRetrofit {
 
     private static Retrofit retrofit;
-    private static final String baseUrl = "https://api.stackexchange.com/2.3/";
+    private static final String baseUrl = Constant.stackExchangeApiBaseUrl;
 
     public StackExchangeApi getApi() {
         if (retrofit == null) {

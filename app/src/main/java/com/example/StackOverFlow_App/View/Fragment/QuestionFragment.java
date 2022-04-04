@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.QuestionsState;
 import com.example.StackOverFlow_App.Other.TagsChipHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
@@ -66,7 +67,6 @@ public class QuestionFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e(TAG, "onCreateView: ");
 
         boolean isBeingCreatedForFirstTime = savedInstanceState == null;
 
@@ -76,7 +76,7 @@ public class QuestionFragment extends Fragment{
         init();
 
         if (!isBeingCreatedForFirstTime) {
-            chipGroup.check(savedInstanceState.getInt("CheckedChip"));
+            chipGroup.check(savedInstanceState.getInt(Constant.CheckedChipBundleKey));
             isRotation = true;
         }
         else {
@@ -100,7 +100,7 @@ public class QuestionFragment extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecQuestionPagingAdapter(new QuestionComparator(), Markwon.create(requireContext()), question -> {
             Intent intent = new Intent(requireActivity(), QuestionActivity.class);
-            intent.putExtra("questionId",question.getQuestionId());
+            intent.putExtra(Constant.questionIdIntentExtraName,question.getQuestionId());
             startActivity(intent);
         });
 
@@ -114,7 +114,7 @@ public class QuestionFragment extends Fragment{
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("CheckedChip",chipGroup.getCheckedChipId());
+        outState.putInt(Constant.CheckedChipBundleKey,chipGroup.getCheckedChipId());
     }
 
     PublishSubject<CombinedLoadStates> subject = PublishSubject.create();
@@ -155,7 +155,6 @@ public class QuestionFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        Log.e(TAG, "onStart: " );
         chipGroup.setOnCheckedChangeListener(checkedChangeListener);
         tagChip.setOnClickListener(tagChipClickListener);
         refreshLayout.setOnRefreshListener(onRefreshListener);
@@ -171,7 +170,6 @@ public class QuestionFragment extends Fragment{
     @Override
     public void onStop() {
         super.onStop();
-        Log.e(TAG, "onStop: " );
         chipGroup.setOnCheckedChangeListener(null);
         tagChip.setOnClickListener(null);
         refreshLayout.setOnRefreshListener(null);
@@ -198,20 +196,18 @@ public class QuestionFragment extends Fragment{
     };
 
     private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
-        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList("tagsList"));
+        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList(Constant.tagsListBundleKey));
         viewModel.setTags(tagsString);
         adapter.refresh();
     };
 
     private final ChipGroup.OnCheckedChangeListener checkedChangeListener = (group, checkedId) -> {
-        Log.e(TAG, "chip check listener: " );
         if (checkedId == R.id.chip_newest_question_fragment)
             viewModel.setQuestionsState(QuestionsState.NEWEST);
         if (checkedId == R.id.chip_bountied_question_fragment)
             viewModel.setQuestionsState(QuestionsState.BOUNTIED);
         if (checkedId == R.id.chip_unanswered_question_fragment)
             viewModel.setQuestionsState(QuestionsState.UNANSWERED);
-        Log.e(TAG, "chip check listener: " + adapter );
         adapter.refresh();
     };
 

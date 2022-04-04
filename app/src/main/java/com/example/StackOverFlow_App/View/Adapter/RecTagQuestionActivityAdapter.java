@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.View.Activity.SearchResultActivity;
 import com.example.StackOverFlow_App.databinding.ItemRecTagsQuestionActivityBinding;
 import com.google.android.material.chip.Chip;
@@ -37,8 +38,8 @@ public class RecTagQuestionActivityAdapter extends RecyclerView.Adapter<RecTagQu
 
         holder.chip.setOnClickListener(v -> {
             Intent intent = new Intent(holder.chip.getContext(), SearchResultActivity.class);
-            intent.putExtra("searchOnlyOneTag",true);
-            intent.putExtra("searchTags",holder.chip.getText());
+            intent.putExtra(Constant.searchOnlyOneTagIntentExtraName,true);
+            intent.putExtra(Constant.searchTagsIntentExtraName,holder.chip.getText());
             holder.chip.getContext().startActivity(intent);
         });
 

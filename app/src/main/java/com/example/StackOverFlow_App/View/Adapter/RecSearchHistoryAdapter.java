@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.StackOverFlow_App.Model.DB.Entity.DiffUtil.SearchComparator;
 import com.example.StackOverFlow_App.Model.DB.Entity.Search;
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.View.Activity.SearchResultActivity;
 import com.example.StackOverFlow_App.databinding.ItemRecSearchHistoryBinding;
 import java.util.ArrayList;
@@ -50,13 +51,13 @@ public class RecSearchHistoryAdapter extends RecyclerView.Adapter<RecSearchHisto
         holder.bind(position);
         binding.constraintItemSearchHistory.setOnClickListener(v -> {
             Intent intent = new Intent(activity, SearchResultActivity.class);
-            intent.putExtra("searchQuery",searchList.get(position).query);
-            intent.putExtra("searchTags",searchList.get(position).tags);
-            intent.putExtra("searchIsAcceptedBool",searchList.get(position).hasAccepted);
-            intent.putExtra("searchIsClosedBool",searchList.get(position).closed);
-            intent.putExtra("searchNumberOfAnswers",searchList.get(position).minimumAnswers);
-            intent.putExtra("searchTitleContains",searchList.get(position).titleContains);
-            intent.putExtra("searchBodyContains",searchList.get(position).bodyContains);
+            intent.putExtra(Constant.searchQueryIntentExtraName,searchList.get(position).query);
+            intent.putExtra(Constant.searchTagsIntentExtraName,searchList.get(position).tags);
+            intent.putExtra(Constant.searchIsAcceptedBoolIntentExtraName,searchList.get(position).hasAccepted);
+            intent.putExtra(Constant.searchIsClosedBoolIntentExtraName,searchList.get(position).closed);
+            intent.putExtra(Constant.searchNumberOfAnswersIntentExtraName,searchList.get(position).minimumAnswers);
+            intent.putExtra(Constant.searchTitleContainsIntentExtraName,searchList.get(position).titleContains);
+            intent.putExtra(Constant.searchBodyContainsIntentExtraName,searchList.get(position).bodyContains);
             activity.startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
         });
     }

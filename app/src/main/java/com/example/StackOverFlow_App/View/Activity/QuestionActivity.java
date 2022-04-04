@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bumptech.glide.Glide;
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.DateHelper;
 import com.example.StackOverFlow_App.Other.MarkdownHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Answer;
@@ -128,7 +129,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private String getQuestionId() {
         Intent intent = getIntent();
-        return intent.getStringExtra("questionId");
+        return intent.getStringExtra(Constant.questionIdIntentExtraName);
     }
 
     private final androidx.lifecycle.Observer<QuestionResponse> observer = questionResponse -> {
@@ -147,7 +148,7 @@ public class QuestionActivity extends AppCompatActivity {
     private final View.OnClickListener userProfileClickListener = v -> {
         if (question != null) {
             Intent intent = new Intent(this,UserProfileActivity.class);
-            intent.putExtra("userId",question.getOwner().getUserId());
+            intent.putExtra(Constant.userIdIntentExtraName,question.getOwner().getUserId());
             startActivity(intent);
         }
     };

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.DateHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Owner;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Question;
@@ -88,7 +89,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private int getUserId() {
         Intent intent = getIntent();
-        return intent.getIntExtra("userId",-1);
+        return intent.getIntExtra(Constant.userIdIntentExtraName,-1);
     }
 
     private final Observer<UserWithQuestions> observer = userWithQuestions -> {
@@ -145,7 +146,7 @@ public class UserProfileActivity extends AppCompatActivity {
             binding.recQuestionUserProfile.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
             binding.recQuestionUserProfile.setAdapter(new RecQuestionAdapter(questions,markwon,question -> {
                 Intent intent = new Intent(this, QuestionActivity.class);
-                intent.putExtra("questionId",question.getQuestionId());
+                intent.putExtra(Constant.questionIdIntentExtraName,question.getQuestionId());
                 startActivity(intent);
             }));
 

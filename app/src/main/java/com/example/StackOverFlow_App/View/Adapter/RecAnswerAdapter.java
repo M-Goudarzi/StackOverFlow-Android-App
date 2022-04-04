@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.DateHelper;
 import com.example.StackOverFlow_App.Other.MarkdownHelper;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.Answer;
@@ -66,7 +67,7 @@ public class RecAnswerAdapter extends RecyclerView.Adapter<RecAnswerAdapter.MyHo
         }
         final View.OnClickListener userProfileClickListener = v -> {
             Intent intent = new Intent(binding.getRoot().getContext(), UserProfileActivity.class);
-            intent.putExtra("userId",answers.get(position).getOwner().getUserId());
+            intent.putExtra(Constant.userIdIntentExtraName,answers.get(position).getOwner().getUserId());
             binding.getRoot().getContext().startActivity(intent);
         };
         holder.imageAvatar.setOnClickListener(userProfileClickListener);

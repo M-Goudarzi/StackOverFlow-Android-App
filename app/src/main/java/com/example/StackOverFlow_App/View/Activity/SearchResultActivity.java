@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.QuestionSearchFilter;
 import com.example.StackOverFlow_App.Model.Networking.ModelObject.DiffUtil.QuestionComparator;
 import com.example.StackOverFlow_App.R;
@@ -60,19 +61,19 @@ public class SearchResultActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SearchResultActivityViewModel.class);
         noQuestionTextView = binding.tvNoQuestionsSearchResult;
         refreshLayout = binding.swipeRefreshSearchResult;
-        searchQuery = intent.getStringExtra("searchQuery");
+        searchQuery = intent.getStringExtra(Constant.searchQueryIntentExtraName);
         if (searchQuery == null)
             searchQuery = "";
         searchFilter = new QuestionSearchFilter();
-        String searchTags = intent.getStringExtra("searchTags");
-        boolean searchOnlyOneTag = intent.getBooleanExtra("searchOnlyOneTag",false);
+        String searchTags = intent.getStringExtra(Constant.searchTagsIntentExtraName);
+        boolean searchOnlyOneTag = intent.getBooleanExtra(Constant.searchOnlyOneTagIntentExtraName,false);
         if (searchOnlyOneTag)
             binding.tvToolbarSearchResult.setText(searchTags);
-        boolean searchIsAcceptedBool = intent.getBooleanExtra("searchIsAcceptedBool", false);
-        boolean searchIsClosedBool = intent.getBooleanExtra("searchIsClosedBool", false);
-        int searchNumberOfAnswers = intent.getIntExtra("searchNumberOfAnswers", 0);
-        String searchTitleContains = intent.getStringExtra("searchTitleContains");
-        String searchBodyContains = intent.getStringExtra("searchBodyContains");
+        boolean searchIsAcceptedBool = intent.getBooleanExtra(Constant.searchIsAcceptedBoolIntentExtraName, false);
+        boolean searchIsClosedBool = intent.getBooleanExtra(Constant.searchIsClosedBoolIntentExtraName, false);
+        int searchNumberOfAnswers = intent.getIntExtra(Constant.searchNumberOfAnswersIntentExtraName, 0);
+        String searchTitleContains = intent.getStringExtra(Constant.searchTitleContainsIntentExtraName);
+        String searchBodyContains = intent.getStringExtra(Constant.searchBodyContainsIntentExtraName);
         searchFilter.setTags(searchTags != null ? searchTags : "");
         searchFilter.setBodyContains(searchBodyContains != null ? searchBodyContains : "");
         searchFilter.setTitleContains(searchTitleContains != null ? searchTitleContains : "");

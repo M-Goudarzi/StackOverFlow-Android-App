@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.StackOverFlow_App.Model.DB.Entity.Search;
+import com.example.StackOverFlow_App.Other.Constant;
 
 @Database(entities = {Search.class}, version = 1)
 public abstract class AppDataBase extends RoomDatabase {
@@ -20,7 +21,7 @@ public abstract class AppDataBase extends RoomDatabase {
             synchronized (AppDataBase.class) {
                 if (Instance == null) {
                     Instance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDataBase.class, "search_database")
+                            AppDataBase.class, Constant.searchDataBaseName)
                             .build();
                 }
             }

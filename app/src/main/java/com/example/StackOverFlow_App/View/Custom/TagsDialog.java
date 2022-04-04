@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.TagsChipHelper;
 import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.databinding.TagsDialogLayoutBinding;
@@ -51,7 +53,7 @@ public abstract class TagsDialog extends DialogFragment implements View.OnClickL
         builder.setView(view);
         builder.setPositiveButton("Select", (dialogInterface, i) -> {
             Bundle bundle = new Bundle();
-            bundle.putStringArrayList("tagsList",getAllSelectedChipsTexts());
+            bundle.putStringArrayList(Constant.tagsListBundleKey,getAllSelectedChipsTexts());
             setUpFragmentResult(bundle);
             dismiss();
         }).setNeutralButton("Cancel", ((dialogInterface, i) -> dismiss()));
@@ -60,7 +62,7 @@ public abstract class TagsDialog extends DialogFragment implements View.OnClickL
         tagsList.addAll(fillUpTagsList());
 
         if (savedInstanceState != null){
-            tagsList.addAll(savedInstanceState.getStringArrayList("selectedTags"));
+            tagsList.addAll(savedInstanceState.getStringArrayList(Constant.selectedTagsBundleKey));
         }
 
         init();
@@ -319,7 +321,7 @@ public abstract class TagsDialog extends DialogFragment implements View.OnClickL
         for (int i = 0; i < chipGroup.getChildCount();i++){
             tags.add(String.valueOf(((Chip) chipGroup.getChildAt(i)).getText()));
         }
-        outState.putStringArrayList("selectedTags",tags);
+        outState.putStringArrayList(Constant.selectedTagsBundleKey,tags);
     }
 
     @Override

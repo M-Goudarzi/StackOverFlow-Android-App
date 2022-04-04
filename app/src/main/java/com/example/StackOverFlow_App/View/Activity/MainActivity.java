@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.View.Fragment.QuestionFragment;
 import com.example.StackOverFlow_App.View.Fragment.SearchFragment;
@@ -36,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             questionFragment = new QuestionFragment();
-            fragmentManager.beginTransaction().add(R.id.frame_layout_main, questionFragment, "Question").commit();
+            fragmentManager.beginTransaction().add(R.id.frame_layout_main, questionFragment, Constant.questionFragmentTag).commit();
             activeFragment = questionFragment;
         } else {
-            retrieveFragments(savedInstanceState.getString("ActiveFragment"));
+            retrieveFragments(savedInstanceState.getString(Constant.activeFragmentBundleKey));
         }
 
         init();
@@ -47,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void retrieveFragments(String fragmentTag) {
-        questionFragment = (QuestionFragment) fragmentManager.findFragmentByTag("Question");
-        searchFragment = (SearchFragment) fragmentManager.findFragmentByTag("Search");
+        questionFragment = (QuestionFragment) fragmentManager.findFragmentByTag(Constant.questionFragmentTag);
+        searchFragment = (SearchFragment) fragmentManager.findFragmentByTag(Constant.searchFragmentTag);
         switch (fragmentTag) {
-            case "Question":
+            case Constant.questionFragmentTag:
                 activeFragment = questionFragment;
                 break;
-            case "Search":
+            case Constant.searchFragmentTag:
                 activeFragment = searchFragment;
                 break;
         }
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 if (questionFragment == null) {
                     questionFragment = new QuestionFragment();
-                    fragmentManager.beginTransaction().hide(activeFragment).add(R.id.frame_layout_main, questionFragment, "Question").commit();
+                    fragmentManager.beginTransaction().hide(activeFragment).add(R.id.frame_layout_main, questionFragment, Constant.questionFragmentTag).commit();
                     activeFragment = questionFragment;
                     return true;
                 }
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 if (searchFragment == null) {
                     searchFragment = new SearchFragment();
-                    fragmentManager.beginTransaction().hide(activeFragment).add(R.id.frame_layout_main, searchFragment, "Search").commit();
+                    fragmentManager.beginTransaction().hide(activeFragment).add(R.id.frame_layout_main, searchFragment, Constant.searchFragmentTag).commit();
                     activeFragment = searchFragment;
                     return true;
                 }
@@ -97,6 +98,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("ActiveFragment", activeFragment.getTag());
+        outState.putString(Constant.activeFragmentBundleKey, activeFragment.getTag());
     }
 }

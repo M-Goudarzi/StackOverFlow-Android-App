@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.Other.TagsChipHelper;
 import com.example.StackOverFlow_App.Model.DB.Entity.Search;
 import com.example.StackOverFlow_App.View.Adapter.RecSearchHistoryAdapter;
@@ -63,8 +64,8 @@ public class SearchFragment extends Fragment {
             isFilterLayoutVisible = false;
         }
         else {
-            isFilterLayoutVisible = savedInstanceState.getBoolean("isFilterLayoutVisible");
-            addSelectedTagsToChipGroup(savedInstanceState.getString("selectedChipsStaring"));
+            isFilterLayoutVisible = savedInstanceState.getBoolean(Constant.isFilterLayoutVisibleBundleKey);
+            addSelectedTagsToChipGroup(savedInstanceState.getString(Constant.selectedChipsStaringBundleKey));
         }
 
         if (isFilterLayoutVisible)
@@ -115,12 +116,12 @@ public class SearchFragment extends Fragment {
     private final View.OnClickListener tagChipClickListener = (view) -> {
         if (isAdded()) {
             DialogFragment tagsDialog = new SearchTagsDialog();
-            tagsDialog.show(getParentFragmentManager(),"tagsDialog");
+            tagsDialog.show(getParentFragmentManager(),Constant.tagsDialogTag);
         }
     };
 
     private final TagsDialog.TagsDialogListener tagsDialogListener = tags -> {
-        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList("tagsList"));
+        String tagsString = tagsChipHelper.convertTagsListToString(tags.getStringArrayList(Constant.tagsListBundleKey));
         viewModel.setTags(tagsString);
 
         addSelectedTagsToChipGroup(tagsString);
@@ -197,13 +198,13 @@ public class SearchFragment extends Fragment {
     }
     private void startSearchResultActivity() {
         Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-        intent.putExtra("searchQuery",searchQuery);
-        intent.putExtra("searchTags",viewModel.getTags());
-        intent.putExtra("searchIsAcceptedBool",searchIsAcceptedBool);
-        intent.putExtra("searchIsClosedBool",searchIsClosedBool);
-        intent.putExtra("searchNumberOfAnswers",searchNumberOfAnswers);
-        intent.putExtra("searchTitleContains",searchTitleContains);
-        intent.putExtra("searchBodyContains",searchBodyContains);
+        intent.putExtra(Constant.searchQueryIntentExtraName,searchQuery);
+        intent.putExtra(Constant.searchTagsIntentExtraName,viewModel.getTags());
+        intent.putExtra(Constant.searchIsAcceptedBoolIntentExtraName,searchIsAcceptedBool);
+        intent.putExtra(Constant.searchIsClosedBoolIntentExtraName,searchIsClosedBool);
+        intent.putExtra(Constant.searchNumberOfAnswersIntentExtraName,searchNumberOfAnswers);
+        intent.putExtra(Constant.searchTitleContainsIntentExtraName,searchTitleContains);
+        intent.putExtra(Constant.searchBodyContainsIntentExtraName,searchBodyContains);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
     }
 
@@ -222,7 +223,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("isFilterLayoutVisible",isFilterLayoutVisible);
-        outState.putString("selectedChipsStaring",viewModel.getTags());
+        outState.putBoolean(Constant.isFilterLayoutVisibleBundleKey,isFilterLayoutVisible);
+        outState.putString(Constant.selectedChipsStaringBundleKey,viewModel.getTags());
     }
 }

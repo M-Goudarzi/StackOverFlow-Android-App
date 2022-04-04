@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.View.Custom.ThemeDialog;
 import com.example.StackOverFlow_App.databinding.ActivitySettingsBinding;
 
@@ -32,15 +33,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void init() {
         binding.tvSourceSettingsActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M-Goudarzi/StackOverFlow-Android-App"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.sourceCodeGithubUrl));
             startActivity(intent);
         });
         binding.tvThemeSettingsActivity.setOnClickListener(v -> {
             ThemeDialog themeDialog = new ThemeDialog();
-            themeDialog.show(getSupportFragmentManager(),"themeDialog");
+            themeDialog.show(getSupportFragmentManager(),Constant.themeDialogTag);
         });
         binding.tvApiSettingsActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.stackexchange.com/"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.stackExchangeApiWebSiteUrl));
             startActivity(intent);
         });
         binding.arrowBackSettingsActivity.setOnClickListener(v -> {
