@@ -1,21 +1,21 @@
 package com.example.StackOverFlow_App.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.StackOverFlow_App.Other.Constant;
 import com.example.StackOverFlow_App.View.Custom.ThemeDialog;
 import com.example.StackOverFlow_App.databinding.ActivitySettingsBinding;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
 
+
+    private static final String TAG = "SettingsActivity";
     private ActivitySettingsBinding binding;
 
     @Override
@@ -38,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
         binding.tvThemeSettingsActivity.setOnClickListener(v -> {
             ThemeDialog themeDialog = new ThemeDialog();
-            themeDialog.show(getSupportFragmentManager(),Constant.themeDialogTag);
+            themeDialog.show(getSupportFragmentManager(), Constant.themeDialogTag);
         });
         binding.tvApiSettingsActivity.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.stackExchangeApiWebSiteUrl));
@@ -46,7 +46,13 @@ public class SettingsActivity extends AppCompatActivity {
         });
         binding.arrowBackSettingsActivity.setOnClickListener(v -> {
             finish();
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
+        });
+        binding.tvOpenSourceSettingsActivity.setOnClickListener(v -> {
+            new LibsBuilder()
+                    .withActivityTitle("Open Source Libraries")
+                    .withAboutMinimalDesign(true)
+                    .start(this);
         });
     }
 }
