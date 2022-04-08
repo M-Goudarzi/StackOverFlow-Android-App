@@ -40,4 +40,7 @@ public class Constant {
     public static final String searchTitleContainsIntentExtraName = "searchTitleContains";
     public static final String searchBodyContainsIntentExtraName = "searchBodyContains";
 
+    public static final String applicationSharedPreferencesKey = "com.example.StackOverFlow_App.PREFERENCE_FILE_KEY";
+    public static final String darkThemeSharedPreferencesKey = "darkTheme";
+
 }

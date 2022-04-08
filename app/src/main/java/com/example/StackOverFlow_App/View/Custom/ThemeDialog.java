@@ -1,14 +1,18 @@
 package com.example.StackOverFlow_App.View.Custom;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.StackOverFlow_App.Other.Constant;
 
 public class ThemeDialog extends DialogFragment {
 
@@ -25,17 +29,17 @@ public class ThemeDialog extends DialogFragment {
         themes[0] = "Light";
         themes[1] = "Dark";
         int themeMode = AppCompatDelegate.getDefaultNightMode();
+        SharedPreferences preferences = requireContext().getApplicationContext().getSharedPreferences(Constant.applicationSharedPreferencesKey,MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle("Theme")
                 .setSingleChoiceItems(themes, (themeMode == AppCompatDelegate.MODE_NIGHT_YES) ? 1 : 0, (dialogInterface, i) -> {
-                    Log.e(TAG, "onCreateDialog:   " + i );
                     if (i == 0) {
+                        preferences.edit().putBoolean(Constant.darkThemeSharedPreferencesKey,false).apply();
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        dialogInterface.dismiss();
                     }
                     else if (i == 1) {
+                        preferences.edit().putBoolean(Constant.darkThemeSharedPreferencesKey,true).apply();
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        dialogInterface.dismiss();
                     }
                 });
         return builder.create();
