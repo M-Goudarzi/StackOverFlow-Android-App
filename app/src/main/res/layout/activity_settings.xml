@@ -69,7 +69,7 @@
         />
 
     <TextView
-
+        style="@style/myTextView"
         android:drawablePadding="20dp"
         android:id="@+id/tv_theme_settings_activity"
         android:layout_marginEnd="20dp"
@@ -81,16 +81,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="18sp"
         android:textAlignment="textStart"
-        android:textColor="@color/myBlack"
         android:padding="10dp"
         android:focusable="true"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
         android:enabled="true"
         app:drawableStartCompat="@drawable/colors_24"
-        app:drawableTint="@color/myBlack" />
+        />
 
     <TextView
+        style="@style/myTextView"
         android:drawablePadding="20dp"
         android:id="@+id/tv_version_settings_activity"
         android:layout_marginEnd="20dp"
@@ -102,14 +102,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="18sp"
         android:textAlignment="textStart"
-        android:textColor="@color/myBlack"
         android:padding="10dp"
         android:focusable="true"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
         android:enabled="true"
         app:drawableStartCompat="@drawable/ic_baseline_info_24"
-        app:drawableTint="@color/myBlack" />
+        />
 
     <TextView
         android:layout_margin="20dp"
@@ -127,6 +126,7 @@
         />
 
     <TextView
+        style="@style/myTextView"
         android:drawablePadding="20dp"
         android:id="@+id/tv_Source_settings_activity"
         android:layout_marginEnd="20dp"
@@ -138,7 +138,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="18sp"
         android:textAlignment="textStart"
-        android:textColor="@color/myBlack"
         android:padding="10dp"
         android:focusable="true"
         android:clickable="true"
@@ -147,6 +146,7 @@
         app:drawableStartCompat="@drawable/github" />
 
     <TextView
+        style="@style/myTextView"
         android:drawablePadding="20dp"
         android:id="@+id/tv_open_source_settings_activity"
         android:layout_marginEnd="20dp"
@@ -158,16 +158,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="18sp"
         android:textAlignment="textStart"
-        android:textColor="@color/myBlack"
         android:padding="10dp"
         android:focusable="true"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
         android:enabled="true"
         app:drawableStartCompat="@drawable/open_source"
-        app:drawableTint="@color/myBlack" />
+        />
 
     <TextView
+        style="@style/myTextView"
         android:drawablePadding="20dp"
         android:id="@+id/tv_api_settings_activity"
         android:layout_marginEnd="20dp"
@@ -179,14 +179,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="18sp"
         android:textAlignment="textStart"
-        android:textColor="@color/myBlack"
         android:padding="10dp"
         android:focusable="true"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
         android:enabled="true"
         app:drawableStartCompat="@drawable/cloud_24"
-        app:drawableTint="@color/myBlack" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

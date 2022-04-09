@@ -10,11 +10,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_item_search_history"
-        android:background="@color/white"
+        style="@style/myLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp">
-
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"

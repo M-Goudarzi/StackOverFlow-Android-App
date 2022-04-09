@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            style="@style/myEditText"
             android:background="@drawable/custom_edittext"
             android:textSize="16sp"
             android:padding="10dp"
@@ -39,10 +40,10 @@
 
         <ImageButton
             android:id="@+id/image_button_tags_dialog"
-            style="?android:buttonBarButtonStyle"
+            style="?buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/check_24"/>
+            android:src="@drawable/check_24" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

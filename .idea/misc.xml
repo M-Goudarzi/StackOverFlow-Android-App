@@ -29,11 +29,27 @@
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_stack.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/mipmap-anydpi-v26/ic_stack_round.xml" value="0.2786458333333333" />
         <entry key="..\:/dadashi/android poject/Retrofit_test/app/src/main/res/xml/chip.xml" value="0.2625" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable-night/bottom_nav_color.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable-night/custom_layout.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable-night/search_24_white.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable-night/search_icon.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/account_circle_24.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/bottom_nav_color.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/circle_bronze_background.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/circle_silver_background.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/custom_layout.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/search_24.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/search_24_focused.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/drawable/search_icon.xml" value="0.22863247863247863" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/activity_main.xml" value="0.2153846153846154" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/activity_question.xml" value="0.16485507246376813" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/activity_settings.xml" value="0.1" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/activity_user_profile.xml" value="0.1766304347826087" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/fragment_search.xml" value="0.2" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/item_rec_answers.xml" value="0.2153846153846154" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/item_rec_comments.xml" value="0.1766304347826087" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/item_rec_search_history.xml" value="0.2153846153846154" />
+        <entry key="..\:/dadashi/android poject/StackOverFlow_APP/app/src/main/res/layout/tags_dialog_layout.xml" value="0.16666666666666666" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/circle_bronz_background.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/circle_silver_background.xml" value="0.22863247863247863" />
         <entry key="..\:/dadashi/android poject/StackOverFlow_APP_test_2/app/src/main/res/drawable-v24/custom_edittext.xml" value="0.22863247863247863" />

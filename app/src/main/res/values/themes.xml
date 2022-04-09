@@ -13,17 +13,36 @@
         <item name="android:progressBarStyle">@style/myProgressBar</item>
         <item name="chipStyle">@style/myChip</item>
         <item name="cardViewStyle">@style/myCardView</item>
+        <item name="appBarLayoutStyle">@style/myAppBar</item>
 
     </style>
 
-
+    <style name="myTextView" parent="Widget.AppCompat.TextView">
+        <item name="drawableTint">@color/myBlack</item>
+    </style>
+    <style name="myLayout">
+        <item name="android:background">@color/White</item>
+    </style>
+    <style name="filtersLayout" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/myBlack</item>
+    </style>
+    <style name="myIconImageButton" parent="Platform.AppCompat">
+        <item name="tint">@color/myBlack</item>
+    </style>
+    <style name="myEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/myBlack</item>
+    </style>
+    <style name="myAppBar" parent="Widget.Material3.AppBarLayout">
+        <item name="android:background">@color/white</item>
+    </style>
     <style name="myImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="backgroundTint">@color/white</item>
         <item name="tint">@color/myBlack</item>
     </style>
     <style name="myBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemIconTint">@color/myBlack</item>
-        <item name="itemTextColor">@color/myBlack</item>
+        <item name="itemIconTint">@color/bottom_nav_color</item>
+        <item name="itemTextColor">@color/bottom_nav_color</item>
     </style>
     <style name="myProgressBar" parent="Widget.AppCompat.ProgressBar">
         <item name="android:indeterminateTint">@color/myBlack</item>

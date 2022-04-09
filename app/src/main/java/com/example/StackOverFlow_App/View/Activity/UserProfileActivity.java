@@ -51,9 +51,11 @@ public class UserProfileActivity extends AppCompatActivity {
         binding.appBarLayout.setExpanded(false);
 
         viewModel.getUser(String.valueOf(userId), getLifecycle(), e -> {
-            swipeRefreshLayout.setRefreshing(false);
-            binding.tvErrorMessageUserProfile.setText(e.getMessage());
-            binding.tvErrorMessageUserProfile.setVisibility(View.VISIBLE);
+            runOnUiThread(() -> {
+                swipeRefreshLayout.setRefreshing(false);
+                binding.tvErrorMessageUserProfile.setText(e.getMessage());
+                binding.tvErrorMessageUserProfile.setVisibility(View.VISIBLE);
+            });
         }).observe(this,observer);
 
 
@@ -97,6 +99,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private final Observer<UserWithQuestions> observer = userWithQuestions -> {
         runOnUiThread(() -> {
             owner = userWithQuestions.getUserResponse().getOwners().get(0);
+            questions.clear();
             questions.addAll(userWithQuestions.getQuestionResponse().getQuestions());
             updateUi(owner,questions);
             binding.tvErrorMessageUserProfile.setVisibility(View.GONE);

@@ -73,5 +73,6 @@
     <string name="app">App</string>
     <string name="share_link">Share link</string>
     <string name="open_in_browser">Open in browser</string>
+    <string name="filters">Filters</string>
 
 </resources>

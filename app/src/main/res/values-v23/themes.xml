@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="MyTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MyTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/myBlack</item>
 
@@ -13,6 +13,7 @@
         <item name="android:progressBarStyle">@style/myProgressBar</item>
         <item name="chipStyle">@style/myChip</item>
         <item name="cardViewStyle">@style/myCardView</item>
+        <item name="appBarLayoutStyle">@style/myAppBar</item>
 
     </style>
 
