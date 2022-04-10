@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.StackOverFlow_App.BuildConfig;
 import com.example.StackOverFlow_App.Other.Constant;
+import com.example.StackOverFlow_App.R;
 import com.example.StackOverFlow_App.View.Custom.ThemeDialog;
 import com.example.StackOverFlow_App.databinding.ActivitySettingsBinding;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -32,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private void init() {
+        binding.tvVersionSettingsActivity.setText(getString(R.string.version, BuildConfig.VERSION_NAME));
         binding.tvSourceSettingsActivity.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.sourceCodeGithubUrl));
             startActivity(intent);
